@@ -851,7 +851,7 @@
         <div class="recommend" id="recommend">
           <div>
             <small>噜咪啦猜你今天适合</small>
-            <h3>阳光原味脆</h3>
+            <h3>原味</h3>
             <p>适合“今天还不错，但需要一点快乐提醒”的普通日子。轻松、百搭、无负担。</p>
             <div class="btn-row">
               <button class="btn btn-primary" onclick="saveFlavor()">加入快乐包</button>
@@ -918,53 +918,106 @@
       <div class="section">
         <div class="section-head">
           <h2>找到属于你的那一包</h2>
-          <small>口味星球</small>
+          <small>真实口味星球</small>
         </div>
         <div class="flavor-filter">
           <button class="filter-btn active" onclick="setFilter(this, 'all')">全部</button>
-          <button class="filter-btn" onclick="setFilter(this, 'study')">复习赶稿</button>
-          <button class="filter-btn" onclick="setFilter(this, 'drama')">追剧</button>
-          <button class="filter-btn" onclick="setFilter(this, 'party')">聚会</button>
-          <button class="filter-btn" onclick="setFilter(this, 'light')">轻负担</button>
+          <button class="filter-btn" onclick="setFilter(this, 'classic')">经典快乐</button>
+          <button class="filter-btn" onclick="setFilter(this, 'spicy')">重口上头</button>
+          <button class="filter-btn" onclick="setFilter(this, 'fresh')">清爽轻脆</button>
+          <button class="filter-btn" onclick="setFilter(this, 'yunnan')">云贵风味</button>
+          <button class="filter-btn" onclick="setFilter(this, 'sweet')">甜甜奖励</button>
         </div>
 
         <div class="flavor-grid" id="flavorGrid">
-          <div class="flavor-card" data-scene="study" onclick="openFlavor('熬夜芝士脆', '适合复习、赶稿、刷剧时的深夜陪伴。', '📚')">
+          <div class="flavor-card" data-scene="classic" onclick="openFlavor('原味', '最不容易出错的一包，适合什么都不想想、只想单纯脆一下的时候。', '🥔', '日常 / 追剧 / 分享', '经典 / 百搭 / 轻松')">
             <div class="flavor-img">🥔</div>
-            <h3>熬夜芝士脆</h3>
-            <p>适合：复习赶稿、深夜追剧。</p>
+            <h3>原味</h3>
+            <p>适合：日常快乐、追剧、办公室分享。</p>
           </div>
-          <div class="flavor-card" data-scene="drama" onclick="openFlavor('番茄元气脆', '低电量下午，来一点酸甜明亮的元气。', '🍅')">
-            <div class="flavor-img" style="background: linear-gradient(145deg,#ffc0d9,#ff7caa)">🍅</div>
-            <h3>番茄元气脆</h3>
-            <p>适合：低电量、下课后。</p>
+          <div class="flavor-card" data-scene="spicy" onclick="openFlavor('诱惑麻辣味', '想来点刺激的时候，就让麻辣味把今天的低电量叫醒。', '🌶️', '聚会 / 夜宵 / 游戏局', '麻辣 / 上头 / 热闹')">
+            <div class="flavor-img" style="background: linear-gradient(145deg,#ffb067,#e84b2d)">🌶️</div>
+            <h3>诱惑麻辣味</h3>
+            <p>适合：朋友局、夜宵、想开胃的时候。</p>
           </div>
-          <div class="flavor-card" data-scene="light" onclick="openFlavor('清爽黄瓜脆', '轻轻脆一下，适合午后和轻负担分享。', '🥒')">
+          <div class="flavor-card" data-scene="fresh" onclick="openFlavor('清爽小黄瓜味', '轻轻脆一下，像给嘴巴吹了一阵小凉风。', '🥒', '午后 / 轻食 / 宿舍分享', '清爽 / 轻负担 / 解腻')">
             <div class="flavor-img" style="background: linear-gradient(145deg,#c7ff8a,#75c96b)">🥒</div>
-            <h3>清爽黄瓜脆</h3>
-            <p>适合：午后、轻食、宿舍分享。</p>
+            <h3>清爽小黄瓜味</h3>
+            <p>适合：午后、轻食、想解腻的时候。</p>
           </div>
-          <div class="flavor-card" data-scene="party" onclick="openFlavor('热辣开麦脆', '越聊越上头的一包，适合朋友局和游戏局。', '🔥')">
+          <div class="flavor-card" data-scene="yunnan" onclick="openFlavor('云南番茄味', '酸甜明亮的一包，像把云南阳光装进薯片袋里。', '🍅', '下课后 / 低电量 / 小奖励', '酸甜 / 元气 / 明亮')">
+            <div class="flavor-img" style="background: linear-gradient(145deg,#ffc0d9,#ff7caa)">🍅</div>
+            <h3>云南番茄味</h3>
+            <p>适合：低电量下午、想恢复元气。</p>
+          </div>
+          <div class="flavor-card" data-scene="sweet" onclick="openFlavor('香甜玉米味', '甜甜香香的一包，适合给今天加一点软乎乎的快乐。', '🌽', '下午茶 / 奖励自己 / 追剧', '香甜 / 温柔 / 好入口')">
+            <div class="flavor-img" style="background: linear-gradient(145deg,#ffe872,#f3b02f)">🌽</div>
+            <h3>香甜玉米味</h3>
+            <p>适合：下午茶、奖励自己、轻松追剧。</p>
+          </div>
+          <div class="flavor-card" data-scene="spicy" onclick="openFlavor('任性烧烤味', '很适合“今天就想任性一点”的时刻，越吃越有聚会感。', '🔥', '聚会 / 游戏 / 夜宵', '烧烤 / 过瘾 / 热闹')">
             <div class="flavor-img" style="background: linear-gradient(145deg,#ffa24f,#e8502f)">🔥</div>
-            <h3>热辣开麦脆</h3>
-            <p>适合：聚会、游戏、聊天破冰。</p>
+            <h3>任性烧烤味</h3>
+            <p>适合：游戏局、夜宵局、朋友分享。</p>
           </div>
-          <div class="flavor-card" data-scene="drama" onclick="openFlavor('海盐治愈脆', '不吵闹的安慰感，适合一个人慢慢吃。', '🌊')">
+          <div class="flavor-card" data-scene="fresh" onclick="openFlavor('阳光海苔味', '咸香轻脆，像一包不会打扰你的温柔快乐。', '🌊', '追剧 / 独处 / 轻松聊天', '海苔 / 咸香 / 轻脆')">
             <div class="flavor-img" style="background: linear-gradient(145deg,#b9edff,#75aaff)">🌊</div>
-            <h3>海盐治愈脆</h3>
-            <p>适合：emo夜晚、独处时刻。</p>
+            <h3>阳光海苔味</h3>
+            <p>适合：追剧、独处、想轻松吃一点。</p>
           </div>
-          <div class="flavor-card" data-scene="party" onclick="openFlavor('焦糖奖励脆', '完成一件事之后，用甜甜脆脆奖励自己。', '🍯')">
+          <div class="flavor-card" data-scene="sweet" onclick="openFlavor('土蜂蜜烤翅味', '甜香里带一点烤翅的满足感，适合给自己发一份小奖励。', '🍯', '奖励自己 / 夜宵 / 小庆祝', '蜂蜜 / 烤翅 / 满足')">
             <div class="flavor-img" style="background: linear-gradient(145deg,#ffe092,#c87a2f)">🍯</div>
-            <h3>焦糖奖励脆</h3>
-            <p>适合：奖励自己、小庆祝。</p>
+            <h3>土蜂蜜烤翅味</h3>
+            <p>适合：小庆祝、奖励自己、夜宵。</p>
+          </div>
+
+          <div class="flavor-card" data-scene="classic" onclick="openFlavor('黄心土豆原味', '黄心土豆的原本香气更明显，适合喜欢朴素土豆香的人。', '🟡', '日常 / 原味党 / 轻分享', '黄心土豆 / 原香 / 朴素')">
+            <div class="flavor-img" style="background: linear-gradient(145deg,#ffe76b,#e8a82f)">🟡</div>
+            <h3>黄心土豆原味</h3>
+            <p>适合：原味党、喜欢土豆本香的人。</p>
+          </div>
+          <div class="flavor-card" data-scene="spicy" onclick="openFlavor('地道麻辣味', '比普通麻辣更有存在感，适合想吃得更带劲的时候。', '🌶️', '夜宵 / 聚会 / 重口爱好者', '地道 / 麻辣 / 带劲')">
+            <div class="flavor-img" style="background: linear-gradient(145deg,#ff8a5d,#b91616)">🌶️</div>
+            <h3>地道麻辣味</h3>
+            <p>适合：重口爱好者、夜宵和聚会。</p>
+          </div>
+          <div class="flavor-card" data-scene="yunnan" onclick="openFlavor('傣家舂鸡脚味', '很有记忆点的一包，适合想尝点特别风味的时候。', '🐔', '尝鲜 / 朋友分享 / 云南风味', '傣家 / 酸辣 / 特别')">
+            <div class="flavor-img" style="background: linear-gradient(145deg,#ffd36d,#ff7058)">🐔</div>
+            <h3>傣家舂鸡脚味</h3>
+            <p>适合：尝鲜、分享、想吃点特别的。</p>
+          </div>
+          <div class="flavor-card" data-scene="yunnan" onclick="openFlavor('黑松露牛干巴味', '高级感和地方风味一起出现，适合想吃点“有故事”的口味。', '🥩', '尝鲜 / 送朋友 / 风味探索', '黑松露 / 牛干巴 / 记忆点')">
+            <div class="flavor-img" style="background: linear-gradient(145deg,#8d6b4d,#3d2619)">🥩</div>
+            <h3>黑松露牛干巴味</h3>
+            <p>适合：风味探索、尝鲜、想拍照分享。</p>
+          </div>
+          <div class="flavor-card" data-scene="yunnan" onclick="openFlavor('天麻火腿味', '一听就很云贵的一包，适合把地方风味做成社交话题。', '🍖', '尝鲜 / 地方风味 / 送礼分享', '天麻 / 火腿 / 云贵特色')">
+            <div class="flavor-img" style="background: linear-gradient(145deg,#f2c16e,#9d5631)">🍖</div>
+            <h3>天麻火腿味</h3>
+            <p>适合：地方风味爱好者、分享尝鲜。</p>
+          </div>
+          <div class="flavor-card" data-scene="yunnan" onclick="openFlavor('松茸炖土鸡味', '像一包有山野香气的薯片，适合想吃点温暖风味的时候。', '🍄', '秋冬 / 尝鲜 / 温暖小食', '松茸 / 土鸡 / 温暖')">
+            <div class="flavor-img" style="background: linear-gradient(145deg,#d6b27a,#765335)">🍄</div>
+            <h3>松茸炖土鸡味</h3>
+            <p>适合：秋冬、温暖感、风味尝鲜。</p>
+          </div>
+
+          <div class="flavor-card" data-scene="yunnan" onclick="openFlavor('云贵土豆原味', '更强调产地感的一包，适合把“土豆本身”做成品牌记忆。', '⛰️', '日常 / 产地风味 / 原味党', '云贵土豆 / 本味 / 产地感')">
+            <div class="flavor-img" style="background: linear-gradient(145deg,#f4d36a,#b8792a)">⛰️</div>
+            <h3>云贵土豆原味</h3>
+            <p>适合：原味党、产地风味、轻分享。</p>
+          </div>
+          <div class="flavor-card" data-scene="fresh" onclick="openFlavor('青柠味', '酸酸清清的一包，适合夏天、午后和想清醒一下的时候。', '🍋', '夏天 / 午后 / 解腻', '青柠 / 清爽 / 酸香')">
+            <div class="flavor-img" style="background: linear-gradient(145deg,#e6ff73,#8bd857)">🍋</div>
+            <h3>青柠味</h3>
+            <p>适合：夏天、午后、想清醒一下。</p>
           </div>
         </div>
       </div>
 
       <div class="section share-card">
         <h2>口味不是货架</h2>
-        <p>在噜咪啦这里，每一包都有自己的出场时刻。你不是在挑 SKU，而是在找今天最懂你的那一包。</p>
+        <p>噜咪啦的口味可以分成经典快乐、重口上头、清爽轻脆和云贵风味。用户不是在看一堆商品名，而是在找今天最适合自己的那一包。</p>
       </div>
     </section>
 
@@ -1063,11 +1116,11 @@
         <div class="record-grid">
           <div class="record-card">
             <b>收藏过的口味</b>
-            <span>熬夜芝士脆、番茄元气脆、热辣开麦脆</span>
+            <span>地道麻辣味、云南番茄味、任性烧烤味</span>
           </div>
           <div class="record-card">
             <b>想试吃的口味</b>
-            <span>海盐治愈脆、焦糖奖励脆</span>
+            <span>阳光海苔味、土蜂蜜烤翅味</span>
           </div>
           <div class="record-card">
             <b>我的状态记录</b>
@@ -1075,7 +1128,7 @@
           </div>
           <div class="record-card">
             <b>最适合我的一包</b>
-            <span>系统猜你最适合“熬夜芝士脆”。</span>
+            <span>系统猜你最适合“地道麻辣味”。</span>
           </div>
         </div>
       </div>
@@ -1145,32 +1198,32 @@
 
     const moods = {
       ddl: {
-        title: "熬夜芝士脆",
+        title: "地道麻辣味",
         desc: "适合赶DDL、复习周和加班夜。重点不是“好吃”两个字，而是给你一种被理解的精神续命感。",
-        bag: "LUMILA<br />熬夜芝士脆",
-        toast: "已为你匹配：熬夜芝士脆。今天先脆一下，再继续战斗。"
+        bag: "LUMILA<br />地道麻辣味",
+        toast: "已为你匹配：地道麻辣味。今天先脆一下，再继续战斗。"
       },
       emo: {
-        title: "海盐治愈脆",
+        title: "阳光海苔味",
         desc: "适合低能量、想安静待一会儿的夜晚。柔和一点，不吵闹，但有陪伴感。",
-        bag: "LUMILA<br />海盐治愈脆",
-        toast: "已为你匹配：海盐治愈脆。今天也可以慢慢来。"
+        bag: "LUMILA<br />阳光海苔味",
+        toast: "已为你匹配：阳光海苔味。今天也可以慢慢来。"
       },
       party: {
-        title: "热辣开麦脆",
+        title: "任性烧烤味",
         desc: "适合聚会、宿舍分享和游戏局。越聊越上头，适合破冰和分享。",
-        bag: "LUMILA<br />热辣开麦脆",
-        toast: "已为你匹配：热辣开麦脆。朋友局就靠它开场。"
+        bag: "LUMILA<br />任性烧烤味",
+        toast: "已为你匹配：任性烧烤味。朋友局就靠它开场。"
       },
       reward: {
-        title: "焦糖奖励脆",
+        title: "土蜂蜜烤翅味",
         desc: "适合完成任务后奖励自己。今天已经很努力了，值得甜甜脆脆一下。",
-        bag: "LUMILA<br />焦糖奖励脆",
-        toast: "已为你匹配：焦糖奖励脆。给今天的自己发一包奖励。"
+        bag: "LUMILA<br />土蜂蜜烤翅味",
+        toast: "已为你匹配：土蜂蜜烤翅味。给今天的自己发一包奖励。"
       }
     };
 
-    let currentFlavor = "阳光原味脆";
+    let currentFlavor = "原味";
 
     function switchPage(page) {
       document.querySelectorAll(".page").forEach(el => el.classList.remove("active"));
@@ -1211,12 +1264,12 @@
       });
     }
 
-    function openFlavor(title, desc, icon) {
+    function openFlavor(title, desc, icon, scene, key) {
       currentFlavor = title;
       document.getElementById("modalTitle").textContent = icon + " " + title;
       document.getElementById("modalDesc").textContent = desc;
-      document.getElementById("modalScene").textContent = title.includes("热辣") ? "聚会 / 游戏 / 分享" : title.includes("海盐") ? "独处 / 治愈 / 夜晚" : "追剧 / 放松 / 小奖励";
-      document.getElementById("modalKey").textContent = title.includes("芝士") ? "浓郁 / 续命 / 深夜" : title.includes("番茄") ? "酸甜 / 元气 / 明亮" : "轻松 / 好拍 / 好分享";
+      document.getElementById("modalScene").textContent = scene || "追剧 / 分享 / 放松";
+      document.getElementById("modalKey").textContent = key || "脆脆 / 快乐 / 轻松";
       document.getElementById("modal").classList.add("show");
     }
 
