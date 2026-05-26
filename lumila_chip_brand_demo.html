@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>噜咪啦｜脆脆快乐站 Demo</title>
+  <style>
+    :root {
+      --bg: #fff7df;
+      --card: rgba(255, 255, 255, 0.86);
+      --text: #392414;
+      --muted: #8b6a45;
+      --orange: #ff8a2a;
+      --yellow: #ffd84d;
+      --pink: #ff7bb8;
+      --green: #7ecb76;
+      --brown: #5c3518;
+      --shadow: 0 18px 48px rgba(107, 63, 21, 0.18);
+      --radius: 28px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 8% 10%, rgba(255, 216, 77, 0.6), transparent 28%),
+        radial-gradient(circle at 90% 12%, rgba(255, 123, 184, 0.35), transparent 28%),
+        radial-gradient(circle at 22% 86%, rgba(126, 203, 118, 0.35), transparent 28%),
+        linear-gradient(180deg, #fff8e8 0%, #ffe7b8 52%, #fff3db 100%);
+      overflow-x: hidden;
+    }
+
+    .phone-shell {
+      width: min(430px, 100%);
+      margin: 0 auto;
+      min-height: 100vh;
+      position: relative;
+      padding: 18px 16px 92px;
+    }
+
+    .top-pill {
+      height: 36px;
+      padding: 0 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.58);
+      border: 1px solid rgba(255, 255, 255, 0.78);
+      box-shadow: 0 10px 30px rgba(95, 55, 15, 0.08);
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-weight: 800;
+      color: var(--brown);
+      letter-spacing: 0.5px;
+    }
+
+    .brand-dot {
+      width: 21px;
+      height: 21px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, var(--yellow), var(--orange));
+      display: grid;
+      place-items: center;
+      box-shadow: inset -3px -3px 0 rgba(127, 74, 16, 0.1);
+    }
+
+    .hero {
+      margin-top: 18px;
+      min-height: 408px;
+      border-radius: 36px;
+      padding: 22px 20px;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.72), rgba(255,255,255,0.32)),
+        radial-gradient(circle at 86% 20%, rgba(255, 123, 184, 0.38), transparent 32%),
+        radial-gradient(circle at 18% 82%, rgba(255, 216, 77, 0.72), transparent 36%);
+      border: 1px solid rgba(255,255,255,0.82);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tag {
+      width: fit-content;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 138, 42, 0.13);
+      color: #b85a00;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    h1 {
+      margin: 16px 0 8px;
+      font-size: 34px;
+      line-height: 1.08;
+      letter-spacing: -1.2px;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 285px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      border: none;
+      outline: none;
+      border-radius: 999px;
+      padding: 12px 16px;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .btn:active {
+      transform: scale(0.96);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--orange), #ffb11f);
+      color: white;
+      box-shadow: 0 12px 28px rgba(255, 138, 42, 0.36);
+    }
+
+    .btn-ghost {
+      background: rgba(255,255,255,0.72);
+      color: var(--brown);
+      border: 1px solid rgba(255,255,255,0.95);
+    }
+
+    .chip-mascot {
+      position: absolute;
+      right: 8px;
+      bottom: 12px;
+      width: 178px;
+      height: 178px;
+      animation: floaty 3.2s ease-in-out infinite;
+    }
+
+    .chip-face {
+      width: 142px;
+      height: 152px;
+      position: absolute;
+      left: 18px;
+      top: 12px;
+      background:
+        radial-gradient(circle at 35% 30%, rgba(255,255,255,0.5), transparent 18%),
+        linear-gradient(135deg, #ffe16a, #ff9e2a);
+      border-radius: 48% 52% 51% 49% / 41% 47% 53% 59%;
+      transform: rotate(-10deg);
+      box-shadow: 0 22px 35px rgba(113, 65, 14, 0.22), inset -12px -14px 0 rgba(172, 92, 8, 0.12);
+    }
+
+    .chip-face::before,
+    .chip-face::after {
+      content: "";
+      position: absolute;
+      top: 61px;
+      width: 12px;
+      height: 18px;
+      border-radius: 999px;
+      background: #4b270d;
+    }
+
+    .chip-face::before { left: 40px; }
+    .chip-face::after { right: 39px; }
+
+    .smile {
+      position: absolute;
+      left: 56px;
+      top: 88px;
+      width: 32px;
+      height: 16px;
+      border-bottom: 4px solid #4b270d;
+      border-radius: 0 0 999px 999px;
+    }
+
+    .spark {
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.9);
+      box-shadow: 0 0 0 7px rgba(255,255,255,0.15);
+      animation: pop 2.2s ease-in-out infinite;
+    }
+
+    .s1 { width: 10px; height: 10px; right: 36px; top: 70px; }
+    .s2 { width: 7px; height: 7px; left: 20px; bottom: 40px; animation-delay: .5s; }
+    .s3 { width: 8px; height: 8px; right: 102px; bottom: 16px; animation-delay: 1s; }
+
+    @keyframes floaty {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-10px) rotate(2deg); }
+    }
+
+    @keyframes pop {
+      0%, 100% { transform: scale(1); opacity: .8; }
+      50% { transform: scale(1.45); opacity: 1; }
+    }
+
+    .section {
+      margin-top: 18px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin: 0 2px 10px;
+    }
+
+    .section h2 {
+      margin: 0;
+      font-size: 21px;
+      letter-spacing: -0.4px;
+    }
+
+    .section small {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .emotion-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .emotion-card {
+      min-height: 112px;
+      border: none;
+      text-align: left;
+      border-radius: 25px;
+      padding: 14px;
+      background: var(--card);
+      box-shadow: 0 10px 26px rgba(95, 55, 15, 0.1);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      color: var(--text);
+    }
+
+    .emotion-card strong {
+      display: block;
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    .emotion-card span {
+      font-size: 12px;
+      line-height: 1.45;
+      color: var(--muted);
+    }
+
+    .emoji {
+      position: absolute;
+      right: 12px;
+      bottom: 10px;
+      font-size: 32px;
+    }
+
+    .recommend {
+      margin-top: 13px;
+      border-radius: 28px;
+      padding: 16px;
+      background: linear-gradient(135deg, #4a2b11, #8b5019);
+      color: white;
+      box-shadow: 0 18px 38px rgba(82, 45, 12, 0.24);
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 10px;
+      align-items: center;
+      min-height: 154px;
+    }
+
+    .recommend h3 {
+      margin: 4px 0 8px;
+      font-size: 20px;
+    }
+
+    .recommend p {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.6;
+      color: rgba(255,255,255,0.78);
+    }
+
+    .bag {
+      height: 120px;
+      border-radius: 24px;
+      background: linear-gradient(145deg, #ffcf35, #ff772e);
+      box-shadow: inset -10px -10px 0 rgba(86, 44, 8, 0.14), 0 20px 26px rgba(0,0,0,0.12);
+      transform: rotate(4deg);
+      display: grid;
+      place-items: center;
+      color: white;
+      font-size: 17px;
+      font-weight: 900;
+      text-align: center;
+      padding: 12px;
+    }
+
+    .score-card {
+      border-radius: 30px;
+      padding: 18px;
+      background: rgba(255,255,255,0.78);
+      box-shadow: 0 14px 35px rgba(95, 55, 15, 0.12);
+      border: 1px solid rgba(255,255,255,0.9);
+    }
+
+    .score-row {
+      display: grid;
+      grid-template-columns: 82px 1fr 42px;
+      gap: 10px;
+      align-items: center;
+      margin-top: 14px;
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--brown);
+    }
+
+    .bar {
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(121, 78, 28, 0.12);
+      overflow: hidden;
+    }
+
+    .bar i {
+      display: block;
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--orange), var(--yellow));
+    }
+
+    .flavor-scroll {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+
+    .flavor-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .flavor-card {
+      min-width: 154px;
+      border-radius: 28px;
+      padding: 14px;
+      background: rgba(255,255,255,0.82);
+      box-shadow: 0 12px 28px rgba(95, 55, 15, 0.11);
+      border: 1px solid rgba(255,255,255,0.82);
+    }
+
+    .flavor-img {
+      height: 100px;
+      border-radius: 23px;
+      background: linear-gradient(145deg, #ffdf4f, #ff8f2d);
+      display: grid;
+      place-items: center;
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .flavor-card h3 {
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .flavor-card p {
+      margin: 6px 0 0;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .growth {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .mini-card {
+      border-radius: 25px;
+      padding: 14px;
+      background: rgba(255,255,255,0.8);
+      box-shadow: 0 10px 26px rgba(95, 55, 15, 0.1);
+      min-height: 118px;
+    }
+
+    .mini-card b {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 15px;
+    }
+
+    .mini-card p {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.55;
+      color: var(--muted);
+    }
+
+    .service-card {
+      border-radius: 30px;
+      padding: 18px;
+      background: linear-gradient(145deg, rgba(255,255,255,0.84), rgba(255,255,255,0.52));
+      box-shadow: 0 14px 35px rgba(95, 55, 15, 0.12);
+    }
+
+    .service-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .service-item {
+      display: grid;
+      grid-template-columns: 38px 1fr;
+      gap: 10px;
+      align-items: center;
+      padding: 10px;
+      border-radius: 18px;
+      background: rgba(255, 248, 229, 0.82);
+    }
+
+    .service-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: white;
+      box-shadow: 0 8px 18px rgba(95, 55, 15, 0.08);
+    }
+
+    .service-item b {
+      font-size: 13px;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .service-item span {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .share-card {
+      border-radius: 32px;
+      padding: 20px;
+      background:
+        radial-gradient(circle at 88% 16%, rgba(255, 123, 184, 0.25), transparent 34%),
+        linear-gradient(145deg, #ffefb2, #fff9e9);
+      box-shadow: 0 18px 42px rgba(95, 55, 15, 0.16);
+      text-align: center;
+    }
+
+    .share-card h2 {
+      margin-bottom: 8px;
+    }
+
+    .share-card p {
+      margin: 0 auto 14px;
+      max-width: 290px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 13px;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      bottom: 16px;
+      transform: translateX(-50%);
+      width: min(398px, calc(100% - 28px));
+      height: 68px;
+      border-radius: 26px;
+      background: rgba(255,255,255,0.88);
+      box-shadow: 0 18px 45px rgba(77, 45, 15, 0.22);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      align-items: center;
+      z-index: 10;
+      border: 1px solid rgba(255,255,255,0.92);
+    }
+
+    .nav-item {
+      text-decoration: none;
+      color: var(--muted);
+      display: grid;
+      place-items: center;
+      gap: 3px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .nav-item i {
+      font-style: normal;
+      font-size: 20px;
+    }
+
+    .nav-item.active {
+      color: var(--orange);
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 96px;
+      transform: translateX(-50%) translateY(20px);
+      width: min(360px, calc(100% - 36px));
+      padding: 13px 15px;
+      border-radius: 18px;
+      background: rgba(62, 38, 16, 0.92);
+      color: white;
+      font-size: 13px;
+      line-height: 1.5;
+      opacity: 0;
+      pointer-events: none;
+      transition: all .25s ease;
+      z-index: 30;
+      box-shadow: 0 18px 35px rgba(0,0,0,0.2);
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(54, 31, 12, 0.42);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 40;
+      padding: 16px;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-card {
+      width: min(430px, 100%);
+      border-radius: 32px;
+      padding: 20px;
+      background: #fff8e9;
+      box-shadow: 0 -10px 50px rgba(0,0,0,0.2);
+      animation: rise .25s ease;
+    }
+
+    @keyframes rise {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-card h3 {
+      margin: 0 0 8px;
+      font-size: 22px;
+    }
+
+    .modal-card p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 14px;
+    }
+
+    .modal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .modal-grid div {
+      border-radius: 18px;
+      background: white;
+      padding: 12px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .modal-grid b {
+      color: var(--brown);
+      display: block;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    @media (min-width: 780px) {
+      body {
+        display: grid;
+        place-items: center;
+        padding: 30px;
+      }
+
+      .phone-shell {
+        width: 430px;
+        min-height: 860px;
+        border-radius: 42px;
+        box-shadow: 0 28px 80px rgba(78, 45, 15, 0.22);
+        background: rgba(255, 247, 223, 0.5);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="phone-shell">
+    <div class="top-pill">
+      <div class="brand-mark"><span class="brand-dot">✦</span> 噜咪啦 LUMILA</div>
+      <span>脆脆快乐站 Demo</span>
+    </div>
+
+    <section class="hero" id="home">
+      <div class="tag">不是普通薯片，是今日情绪补给</div>
+      <h1>今天适合<br />来点脆脆的快乐吗？</h1>
+      <p>把薯片从“货架商品”变成“情绪入口”：用户先选择今天的状态，再被推荐合适口味、内容和分享卡。</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="document.querySelector('#emotion').scrollIntoView()">测今日口味</button>
+        <button class="btn btn-ghost" onclick="showToast('服务号建议：把公众号从新品公告栏，升级为每日情绪内容入口。')">服务号建议</button>
+      </div>
+      <div class="chip-mascot">
+        <div class="chip-face"><div class="smile"></div></div>
+        <span class="spark s1"></span>
+        <span class="spark s2"></span>
+        <span class="spark s3"></span>
+      </div>
+    </section>
+
+    <section class="section" id="emotion">
+      <div class="section-head">
+        <h2>选择你今天的状态</h2>
+        <small>场景化推荐</small>
+      </div>
+      <div class="emotion-grid">
+        <button class="emotion-card" onclick="selectMood('ddl')">
+          <strong>赶DDL中</strong>
+          <span>需要一点刺激感和精神续命。</span>
+          <span class="emoji">📚</span>
+        </button>
+        <button class="emotion-card" onclick="selectMood('emo')">
+          <strong>今天有点emo</strong>
+          <span>需要温柔、不吵闹的安慰感。</span>
+          <span class="emoji">🌙</span>
+        </button>
+        <button class="emotion-card" onclick="selectMood('party')">
+          <strong>朋友聚会局</strong>
+          <span>需要能分享、能拍照、能破冰。</span>
+          <span class="emoji">🎉</span>
+        </button>
+        <button class="emotion-card" onclick="selectMood('reward')">
+          <strong>想奖励自己</strong>
+          <span>今天值得拥有一包快乐。</span>
+          <span class="emoji">✨</span>
+        </button>
+      </div>
+
+      <div class="recommend" id="recommend">
+        <div>
+          <small>你的今日推荐</small>
+          <h3>阳光原味脆</h3>
+          <p>适合“今天还不错，但需要一点快乐提醒”的普通日子。主打轻松、百搭、无负担。</p>
+        </div>
+        <div class="bag" id="bagText">LUMILA<br />原味脆</div>
+      </div>
+    </section>
+
+    <section class="section" id="score">
+      <div class="section-head">
+        <h2>今日脆脆值</h2>
+        <small>可截图分享</small>
+      </div>
+      <div class="score-card">
+        <div class="top-pill" style="background: rgba(255,248,229,0.8); box-shadow:none;">
+          <span>今日幸运口味：烤肉芝士</span>
+          <span>88/100</span>
+        </div>
+        <div class="score-row">
+          <span>快乐补给</span>
+          <div class="bar"><i style="width: 88%"></i></div>
+          <span>88</span>
+        </div>
+        <div class="score-row">
+          <span>分享欲</span>
+          <div class="bar"><i style="width: 76%"></i></div>
+          <span>76</span>
+        </div>
+        <div class="score-row">
+          <span>解压值</span>
+          <div class="bar"><i style="width: 93%"></i></div>
+          <span>93</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="shop">
+      <div class="section-head">
+        <h2>场景口味卡</h2>
+        <small>不是货架，是场景</small>
+      </div>
+      <div class="flavor-scroll">
+        <div class="flavor-card">
+          <div class="flavor-img">🥔</div>
+          <h3>熬夜芝士脆</h3>
+          <p>适合复习、赶稿、刷剧时的深夜陪伴。</p>
+        </div>
+        <div class="flavor-card">
+          <div class="flavor-img" style="background: linear-gradient(145deg,#ffc0d9,#ff7caa)">🍅</div>
+          <h3>番茄元气脆</h3>
+          <p>适合低电量时补一点明亮情绪。</p>
+        </div>
+        <div class="flavor-card">
+          <div class="flavor-img" style="background: linear-gradient(145deg,#c7ff8a,#75c96b)">🥒</div>
+          <h3>清爽黄瓜脆</h3>
+          <p>适合午后轻食、宿舍分享和轻负担场景。</p>
+        </div>
+        <div class="flavor-card">
+          <div class="flavor-img" style="background: linear-gradient(145deg,#ffa24f,#e8502f)">🔥</div>
+          <h3>热辣开麦脆</h3>
+          <p>适合聚会、游戏、聊天破冰场景。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="member">
+      <div class="section-head">
+        <h2>脆脆成长体系</h2>
+        <small>提升复购与留存</small>
+      </div>
+      <div class="growth">
+        <div class="mini-card">
+          <b>连续打卡 7 天</b>
+          <p>解锁“快乐供应商”徽章和限定表情包。</p>
+        </div>
+        <div class="mini-card">
+          <b>分享口味卡</b>
+          <p>生成今日情绪海报，适合朋友圈传播。</p>
+        </div>
+        <div class="mini-card">
+          <b>口味共创池</b>
+          <p>用户投票决定下一款限定口味。</p>
+        </div>
+        <div class="mini-card">
+          <b>校园脆脆官</b>
+          <p>连接高校社群、漫展、社团和线下试吃。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="service">
+      <div class="section-head">
+        <h2>服务号升级建议</h2>
+        <small>从广告到关系</small>
+      </div>
+      <div class="service-card">
+        <div class="tag">核心策略：公众号不只发新品，而是制造每日打开理由</div>
+        <div class="service-list">
+          <div class="service-item">
+            <div class="service-icon">📮</div>
+            <div><b>每日情绪签</b><span>每天推送一句“今天适合什么口味”的轻内容。</span></div>
+          </div>
+          <div class="service-item">
+            <div class="service-icon">🧪</div>
+            <div><b>口味人格测试</b><span>把薯片口味和MBTI、校园状态、追剧场景绑定。</span></div>
+          </div>
+          <div class="service-item">
+            <div class="service-icon">🎁</div>
+            <div><b>会员任务入口</b><span>签到、积分、试吃申请、线下活动都从服务号进入。</span></div>
+          </div>
+          <div class="service-item">
+            <div class="service-icon">📸</div>
+            <div><b>分享海报模板</b><span>让用户主动晒“今日脆脆值”，形成低成本传播。</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section share-card">
+      <h2>比赛表达一句话</h2>
+      <p>噜咪啦小程序不应该只是线上货架，而应该是一个“情绪化零食运营阵地”：让用户不买的时候也愿意打开，打开之后更容易记住、分享和复购。</p>
+      <button class="btn btn-primary" onclick="openModal()">查看商业逻辑</button>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <a class="nav-item active" href="#home"><i>🏠</i><span>首页</span></a>
+    <a class="nav-item" href="#emotion"><i>💫</i><span>情绪</span></a>
+    <a class="nav-item" href="#shop"><i>🥔</i><span>口味</span></a>
+    <a class="nav-item" href="#member"><i>⭐</i><span>我的</span></a>
+  </nav>
+
+  <div class="toast" id="toast"></div>
+
+  <div class="modal" id="modal" onclick="closeModal(event)">
+    <div class="modal-card">
+      <h3>为什么这样设计？</h3>
+      <p>薯片品牌的核心竞争不只是“口味”，而是用户在什么情绪、什么场景、和谁一起吃。Demo 把购买前的情绪识别、购买中的场景推荐、购买后的分享传播串成一个闭环。</p>
+      <div class="modal-grid">
+        <div><b>拉新</b>情绪测试和分享卡降低传播门槛。</div>
+        <div><b>留存</b>每日脆脆值制造重复打开理由。</div>
+        <div><b>转化</b>按场景推荐口味，减少选择成本。</div>
+        <div><b>复购</b>徽章、积分、共创口味强化关系。</div>
+      </div>
+      <button class="btn btn-primary" style="width:100%" onclick="document.getElementById('modal').classList.remove('show')">我知道了</button>
+    </div>
+  </div>
+
+  <script>
+    const moods = {
+      ddl: {
+        title: "熬夜芝士脆",
+        desc: "适合赶DDL、复习周和加班夜。重点不是“好吃”两个字，而是给用户一种被理解的精神续命感。",
+        bag: "LUMILA<br />熬夜芝士脆",
+        toast: "已为你匹配：熬夜芝士脆。服务号可推送“期末周精神状态检测”。"
+      },
+      emo: {
+        title: "海盐治愈脆",
+        desc: "适合低能量、想安静待一会儿的夜晚。用柔和口味承接用户情绪，让品牌像一个轻陪伴角色。",
+        bag: "LUMILA<br />海盐治愈脆",
+        toast: "已为你匹配：海盐治愈脆。适合生成“今天也慢慢来”分享卡。"
+      },
+      party: {
+        title: "热辣开麦脆",
+        desc: "适合聚会、宿舍分享和游戏局。口味本身成为社交破冰器，提升多人场景下的品牌曝光。",
+        bag: "LUMILA<br />热辣开麦脆",
+        toast: "已为你匹配：热辣开麦脆。可搭配“朋友局口味投票”。"
+      },
+      reward: {
+        title: "焦糖奖励脆",
+        desc: "适合完成任务后奖励自己。把薯片从冲动零食变成一种小型仪式感消费。",
+        bag: "LUMILA<br />焦糖奖励脆",
+        toast: "已为你匹配：焦糖奖励脆。可引导用户进入会员积分任务。"
+      }
+    };
+
+    function selectMood(type) {
+      const data = moods[type];
+      const box = document.getElementById("recommend");
+      document.querySelector("#recommend h3").textContent = data.title;
+      document.querySelector("#recommend p").textContent = data.desc;
+      document.getElementById("bagText").innerHTML = data.bag;
+      box.animate([
+        { transform: "scale(0.98)", opacity: 0.7 },
+        { transform: "scale(1)", opacity: 1 }
+      ], { duration: 220, easing: "ease-out" });
+      showToast(data.toast);
+    }
+
+    function showToast(text) {
+      const toast = document.getElementById("toast");
+      toast.textContent = text;
+      toast.classList.add("show");
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
+    }
+
+    function openModal() {
+      document.getElementById("modal").classList.add("show");
+    }
+
+    function closeModal(event) {
+      if (event.target.id === "modal") {
+        event.target.classList.remove("show");
+      }
+    }
+  </script>
+</body>
+</html>
