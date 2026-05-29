@@ -1,1296 +1,413 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>噜咪啦｜脆脆快乐站 App Demo</title>
-  <style>
-    :root {
-      --bg: #fff7df;
-      --card: rgba(255, 255, 255, 0.88);
-      --text: #392414;
-      --muted: #8b6a45;
-      --orange: #ff8a2a;
-      --yellow: #ffd84d;
-      --pink: #ff7bb8;
-      --green: #7ecb76;
-      --brown: #5c3518;
-      --cream: #fff8e9;
-      --shadow: 0 18px 48px rgba(107, 63, 21, 0.18);
-    }
-
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at 8% 10%, rgba(255, 216, 77, 0.58), transparent 28%),
-        radial-gradient(circle at 90% 12%, rgba(255, 123, 184, 0.32), transparent 28%),
-        radial-gradient(circle at 22% 86%, rgba(126, 203, 118, 0.32), transparent 28%),
-        linear-gradient(180deg, #fff8e8 0%, #ffe7b8 52%, #fff3db 100%);
-      overflow-x: hidden;
-    }
-
-    button {
-      font-family: inherit;
-    }
-
-    .phone-shell {
-      width: min(430px, 100%);
-      margin: 0 auto;
-      min-height: 100vh;
-      position: relative;
-      padding: 16px 16px 92px;
-    }
-
-    .status-bar {
-      height: 36px;
-      padding: 0 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.58);
-      border: 1px solid rgba(255, 255, 255, 0.78);
-      box-shadow: 0 10px 30px rgba(95, 55, 15, 0.08);
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .brand-mark {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      font-weight: 900;
-      color: var(--brown);
-      letter-spacing: 0.5px;
-    }
-
-    .brand-dot {
-      width: 21px;
-      height: 21px;
-      border-radius: 8px;
-      background: linear-gradient(135deg, var(--yellow), var(--orange));
-      display: grid;
-      place-items: center;
-      box-shadow: inset -3px -3px 0 rgba(127, 74, 16, 0.1);
-    }
-
-    .page {
-      display: none;
-      animation: pageIn .22s ease;
-    }
-
-    .page.active {
-      display: block;
-    }
-
-    @keyframes pageIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .hero {
-      margin-top: 16px;
-      min-height: 340px;
-      border-radius: 36px;
-      padding: 22px 20px;
-      background:
-        linear-gradient(145deg, rgba(255,255,255,0.72), rgba(255,255,255,0.32)),
-        radial-gradient(circle at 86% 20%, rgba(255, 123, 184, 0.38), transparent 32%),
-        radial-gradient(circle at 18% 82%, rgba(255, 216, 77, 0.72), transparent 36%);
-      border: 1px solid rgba(255,255,255,0.82);
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .tag {
-      width: fit-content;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(255, 138, 42, 0.13);
-      color: #b85a00;
-      font-size: 12px;
-      font-weight: 900;
-    }
-
-    h1 {
-      margin: 16px 0 8px;
-      font-size: 34px;
-      line-height: 1.08;
-      letter-spacing: -1.2px;
-    }
-
-    .hero p {
-      margin: 0;
-      max-width: 278px;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.7;
-    }
-
-    .chip-mascot {
-      position: absolute;
-      right: 8px;
-      bottom: 6px;
-      width: 168px;
-      height: 168px;
-      animation: floaty 3.2s ease-in-out infinite;
-    }
-
-    .chip-face {
-      width: 134px;
-      height: 144px;
-      position: absolute;
-      left: 18px;
-      top: 12px;
-      background:
-        radial-gradient(circle at 35% 30%, rgba(255,255,255,0.5), transparent 18%),
-        linear-gradient(135deg, #ffe16a, #ff9e2a);
-      border-radius: 48% 52% 51% 49% / 41% 47% 53% 59%;
-      transform: rotate(-10deg);
-      box-shadow: 0 22px 35px rgba(113, 65, 14, 0.22), inset -12px -14px 0 rgba(172, 92, 8, 0.12);
-    }
-
-    .chip-face::before, .chip-face::after {
-      content: "";
-      position: absolute;
-      top: 58px;
-      width: 12px;
-      height: 18px;
-      border-radius: 999px;
-      background: #4b270d;
-    }
-
-    .chip-face::before { left: 38px; }
-    .chip-face::after { right: 37px; }
-
-    .smile {
-      position: absolute;
-      left: 53px;
-      top: 84px;
-      width: 31px;
-      height: 15px;
-      border-bottom: 4px solid #4b270d;
-      border-radius: 0 0 999px 999px;
-    }
-
-    @keyframes floaty {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-10px) rotate(2deg); }
-    }
-
-    .section {
-      margin-top: 18px;
-    }
-
-    .section-head {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      margin: 0 2px 10px;
-    }
-
-    .section h2 {
-      margin: 0;
-      font-size: 21px;
-      letter-spacing: -0.4px;
-    }
-
-    .section small {
-      color: var(--muted);
-      font-weight: 800;
-    }
-
-    .card {
-      border-radius: 30px;
-      padding: 18px;
-      background: var(--card);
-      box-shadow: 0 14px 35px rgba(95, 55, 15, 0.12);
-      border: 1px solid rgba(255,255,255,0.9);
-    }
-
-    .mood-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .mood-card {
-      min-height: 112px;
-      border: none;
-      text-align: left;
-      border-radius: 25px;
-      padding: 14px;
-      background: var(--card);
-      box-shadow: 0 10px 26px rgba(95, 55, 15, 0.1);
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      color: var(--text);
-    }
-
-    .mood-card strong {
-      display: block;
-      font-size: 15px;
-      margin-bottom: 6px;
-    }
-
-    .mood-card span {
-      font-size: 12px;
-      line-height: 1.45;
-      color: var(--muted);
-    }
-
-    .emoji {
-      position: absolute;
-      right: 12px;
-      bottom: 10px;
-      font-size: 32px;
-    }
-
-    .recommend {
-      margin-top: 13px;
-      border-radius: 28px;
-      padding: 16px;
-      background: linear-gradient(135deg, #4a2b11, #8b5019);
-      color: white;
-      box-shadow: 0 18px 38px rgba(82, 45, 12, 0.24);
-      display: grid;
-      grid-template-columns: 1.15fr 0.85fr;
-      gap: 10px;
-      align-items: center;
-      min-height: 154px;
-    }
-
-    .recommend h3 {
-      margin: 4px 0 8px;
-      font-size: 20px;
-    }
-
-    .recommend p {
-      margin: 0;
-      font-size: 12px;
-      line-height: 1.6;
-      color: rgba(255,255,255,0.78);
-    }
-
-    .bag {
-      height: 120px;
-      border-radius: 24px;
-      background: linear-gradient(145deg, #ffcf35, #ff772e);
-      box-shadow: inset -10px -10px 0 rgba(86, 44, 8, 0.14), 0 20px 26px rgba(0,0,0,0.12);
-      transform: rotate(4deg);
-      display: grid;
-      place-items: center;
-      color: white;
-      font-size: 17px;
-      font-weight: 900;
-      text-align: center;
-      padding: 12px;
-    }
-
-    .btn-row {
-      display: flex;
-      gap: 10px;
-      margin-top: 12px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      border: none;
-      outline: none;
-      border-radius: 999px;
-      padding: 12px 16px;
-      font-weight: 900;
-      font-size: 13px;
-      cursor: pointer;
-      transition: transform .2s ease;
-    }
-
-    .btn:active {
-      transform: scale(0.96);
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--orange), #ffb11f);
-      color: white;
-      box-shadow: 0 12px 28px rgba(255, 138, 42, 0.32);
-    }
-
-    .btn-ghost {
-      background: rgba(255,255,255,0.72);
-      color: var(--brown);
-      border: 1px solid rgba(255,255,255,0.95);
-    }
-
-    .score-row {
-      display: grid;
-      grid-template-columns: 82px 1fr 42px;
-      gap: 10px;
-      align-items: center;
-      margin-top: 14px;
-      font-size: 12px;
-      font-weight: 800;
-      color: var(--brown);
-    }
-
-    .bar {
-      height: 12px;
-      border-radius: 999px;
-      background: rgba(121, 78, 28, 0.12);
-      overflow: hidden;
-    }
-
-    .bar i {
-      display: block;
-      height: 100%;
-      border-radius: 999px;
-      background: linear-gradient(90deg, var(--orange), var(--yellow));
-    }
-
-    .task-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .task {
-      display: grid;
-      grid-template-columns: 38px 1fr auto;
-      gap: 10px;
-      align-items: center;
-      padding: 11px;
-      border-radius: 20px;
-      background: rgba(255, 248, 229, 0.88);
-    }
-
-    .task-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 15px;
-      background: white;
-      display: grid;
-      place-items: center;
-      box-shadow: 0 8px 18px rgba(95, 55, 15, 0.08);
-    }
-
-    .task b {
-      display: block;
-      font-size: 13px;
-      color: var(--brown);
-      margin-bottom: 2px;
-    }
-
-    .task span {
-      display: block;
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .energy {
-      font-size: 12px;
-      color: #b85a00;
-      font-weight: 900;
-      background: rgba(255, 138, 42, 0.12);
-      padding: 7px 9px;
-      border-radius: 999px;
-      white-space: nowrap;
-    }
-
-    .flavor-filter {
-      display: flex;
-      gap: 9px;
-      overflow-x: auto;
-      padding-bottom: 5px;
-      scrollbar-width: none;
-    }
-
-    .flavor-filter::-webkit-scrollbar {
-      display: none;
-    }
-
-    .filter-btn {
-      flex: 0 0 auto;
-      border: none;
-      border-radius: 999px;
-      padding: 10px 13px;
-      background: rgba(255,255,255,0.7);
-      color: var(--muted);
-      font-weight: 900;
-      cursor: pointer;
-    }
-
-    .filter-btn.active {
-      background: linear-gradient(135deg, var(--orange), #ffb11f);
-      color: white;
-      box-shadow: 0 10px 20px rgba(255, 138, 42, 0.24);
-    }
-
-    .flavor-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 13px;
-    }
-
-    .flavor-card {
-      border-radius: 28px;
-      padding: 14px;
-      background: rgba(255,255,255,0.82);
-      box-shadow: 0 12px 28px rgba(95, 55, 15, 0.11);
-      border: 1px solid rgba(255,255,255,0.82);
-      cursor: pointer;
-    }
-
-    .flavor-img {
-      height: 102px;
-      border-radius: 23px;
-      background: linear-gradient(145deg, #ffdf4f, #ff8f2d);
-      display: grid;
-      place-items: center;
-      font-size: 40px;
-      margin-bottom: 10px;
-    }
-
-    .flavor-card h3 {
-      margin: 0;
-      font-size: 15px;
-    }
-
-    .flavor-card p {
-      margin: 6px 0 0;
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.45;
-    }
-
-    .level-hero {
-      margin-top: 16px;
-      border-radius: 34px;
-      padding: 20px;
-      min-height: 232px;
-      background:
-        radial-gradient(circle at 90% 10%, rgba(255, 123, 184, 0.3), transparent 34%),
-        linear-gradient(145deg, #4a2b11, #8b5019);
-      color: white;
-      box-shadow: 0 18px 44px rgba(82, 45, 12, 0.25);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .level-hero h1 {
-      margin-top: 12px;
-      font-size: 31px;
-    }
-
-    .level-hero p {
-      margin: 0;
-      max-width: 270px;
-      color: rgba(255,255,255,0.72);
-      font-size: 13px;
-      line-height: 1.65;
-    }
-
-    .level-badge {
-      position: absolute;
-      right: 16px;
-      bottom: 16px;
-      width: 102px;
-      height: 102px;
-      border-radius: 34px;
-      background: linear-gradient(135deg, var(--yellow), var(--orange));
-      display: grid;
-      place-items: center;
-      color: white;
-      font-size: 34px;
-      box-shadow: inset -10px -10px 0 rgba(86, 44, 8, 0.12), 0 18px 28px rgba(0,0,0,0.18);
-    }
-
-    .progress-shell {
-      margin-top: 16px;
-    }
-
-    .progress-text {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      color: rgba(255,255,255,0.82);
-      font-weight: 800;
-      margin-bottom: 7px;
-    }
-
-    .level-progress {
-      height: 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.2);
-      overflow: hidden;
-    }
-
-    .level-progress i {
-      display: block;
-      height: 100%;
-      width: 68%;
-      border-radius: 999px;
-      background: linear-gradient(90deg, #fff, var(--yellow));
-    }
-
-    .badge-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-
-    .badge {
-      border-radius: 22px;
-      padding: 12px 8px;
-      min-height: 98px;
-      background: rgba(255,255,255,0.82);
-      box-shadow: 0 10px 24px rgba(95, 55, 15, 0.09);
-      text-align: center;
-    }
-
-    .badge i {
-      font-style: normal;
-      display: block;
-      font-size: 28px;
-      margin-bottom: 6px;
-    }
-
-    .badge b {
-      display: block;
-      font-size: 12px;
-      color: var(--brown);
-    }
-
-    .badge span {
-      display: block;
-      margin-top: 4px;
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    .profile-card {
-      border-radius: 32px;
-      padding: 18px;
-      background: rgba(255,255,255,0.82);
-      box-shadow: 0 14px 35px rgba(95, 55, 15, 0.12);
-      display: grid;
-      grid-template-columns: 64px 1fr;
-      gap: 14px;
-      align-items: center;
-    }
-
-    .avatar {
-      width: 64px;
-      height: 64px;
-      border-radius: 24px;
-      background: linear-gradient(135deg, var(--yellow), var(--orange));
-      display: grid;
-      place-items: center;
-      font-size: 30px;
-      box-shadow: inset -6px -6px 0 rgba(86, 44, 8, 0.12);
-    }
-
-    .profile-card h2 {
-      margin: 0 0 5px;
-      font-size: 20px;
-    }
-
-    .profile-card p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    .record-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .record-card {
-      border-radius: 24px;
-      padding: 14px;
-      background: rgba(255,255,255,0.82);
-      box-shadow: 0 10px 24px rgba(95, 55, 15, 0.09);
-      min-height: 112px;
-    }
-
-    .record-card b {
-      display: block;
-      font-size: 14px;
-      color: var(--brown);
-      margin-bottom: 8px;
-    }
-
-    .record-card span {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.5;
-    }
-
-    .share-card {
-      border-radius: 32px;
-      padding: 20px;
-      background:
-        radial-gradient(circle at 88% 16%, rgba(255, 123, 184, 0.25), transparent 34%),
-        linear-gradient(145deg, #ffefb2, #fff9e9);
-      box-shadow: 0 18px 42px rgba(95, 55, 15, 0.16);
-      text-align: center;
-    }
-
-    .share-card h2 {
-      margin: 0 0 8px;
-      font-size: 22px;
-    }
-
-    .share-card p {
-      margin: 0 auto 14px;
-      max-width: 290px;
-      color: var(--muted);
-      line-height: 1.6;
-      font-size: 13px;
-    }
-
-    .bottom-nav {
-      position: fixed;
-      left: 50%;
-      bottom: 16px;
-      transform: translateX(-50%);
-      width: min(398px, calc(100% - 28px));
-      height: 68px;
-      border-radius: 26px;
-      background: rgba(255,255,255,0.9);
-      box-shadow: 0 18px 45px rgba(77, 45, 15, 0.22);
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      align-items: center;
-      z-index: 10;
-      border: 1px solid rgba(255,255,255,0.92);
-    }
-
-    .nav-item {
-      border: none;
-      background: transparent;
-      color: var(--muted);
-      display: grid;
-      place-items: center;
-      gap: 3px;
-      font-size: 11px;
-      font-weight: 900;
-      cursor: pointer;
-    }
-
-    .nav-item i {
-      font-style: normal;
-      font-size: 20px;
-    }
-
-    .nav-item.active {
-      color: var(--orange);
-    }
-
-    .toast {
-      position: fixed;
-      left: 50%;
-      bottom: 96px;
-      transform: translateX(-50%) translateY(20px);
-      width: min(360px, calc(100% - 36px));
-      padding: 13px 15px;
-      border-radius: 18px;
-      background: rgba(62, 38, 16, 0.92);
-      color: white;
-      font-size: 13px;
-      line-height: 1.5;
-      opacity: 0;
-      pointer-events: none;
-      transition: all .25s ease;
-      z-index: 30;
-      box-shadow: 0 18px 35px rgba(0,0,0,0.2);
-    }
-
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(54, 31, 12, 0.42);
-      display: none;
-      align-items: flex-end;
-      justify-content: center;
-      z-index: 40;
-      padding: 16px;
-    }
-
-    .modal.show {
-      display: flex;
-    }
-
-    .modal-card {
-      width: min(430px, 100%);
-      border-radius: 32px;
-      padding: 20px;
-      background: #fff8e9;
-      box-shadow: 0 -10px 50px rgba(0,0,0,0.2);
-      animation: rise .25s ease;
-    }
-
-    @keyframes rise {
-      from { transform: translateY(30px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    .modal-card h3 {
-      margin: 0 0 8px;
-      font-size: 22px;
-    }
-
-    .modal-card p {
-      margin: 0 0 14px;
-      color: var(--muted);
-      line-height: 1.65;
-      font-size: 14px;
-    }
-
-    .modal-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .modal-grid div {
-      border-radius: 18px;
-      background: white;
-      padding: 12px;
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .modal-grid b {
-      color: var(--brown);
-      display: block;
-      margin-bottom: 4px;
-      font-size: 14px;
-    }
-
-    @media (min-width: 780px) {
-      body {
-        display: grid;
-        place-items: center;
-        padding: 30px;
-      }
-
-      .phone-shell {
-        width: 430px;
-        min-height: 860px;
-        border-radius: 42px;
-        box-shadow: 0 28px 80px rgba(78, 45, 15, 0.22);
-        background: rgba(255, 247, 223, 0.5);
-      }
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>噜咪啦｜脆脆快乐站</title>
+<style>
+:root {
+  --text:#392414; --muted:#8b6a45; --orange:#ff8a2a; --yellow:#ffd84d;
+  --pink:#ff7bb8; --green:#7ecb76; --brown:#5c3518; --card:rgba(255,255,255,.88);
+  --shadow:0 18px 48px rgba(107,63,21,.18);
+}
+* { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+body {
+  margin:0; min-height:100vh; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  color:var(--text);
+  background:radial-gradient(circle at 8% 10%,rgba(255,216,77,.58),transparent 28%),
+  radial-gradient(circle at 90% 12%,rgba(255,123,184,.32),transparent 28%),
+  radial-gradient(circle at 22% 86%,rgba(126,203,118,.32),transparent 28%),
+  linear-gradient(180deg,#fff8e8 0%,#ffe7b8 52%,#fff3db 100%);
+}
+button { font-family:inherit; }
+.phone-shell { width:min(430px,100%); margin:0 auto; min-height:100vh; padding:16px 16px 92px; position:relative; }
+.status-bar {
+  height:36px; padding:0 14px; display:flex; justify-content:space-between; align-items:center;
+  border-radius:999px; background:rgba(255,255,255,.62); border:1px solid rgba(255,255,255,.78);
+  box-shadow:0 10px 30px rgba(95,55,15,.08); font-size:12px; color:var(--muted);
+}
+.brand-mark { display:flex; align-items:center; gap:7px; font-weight:900; color:var(--brown); }
+.brand-dot { width:21px; height:21px; border-radius:8px; background:linear-gradient(135deg,var(--yellow),var(--orange)); display:grid; place-items:center; }
+.page { display:none; animation:pageIn .22s ease; }
+.page.active { display:block; }
+@keyframes pageIn { from {opacity:0; transform:translateY(8px)} to {opacity:1; transform:translateY(0)} }
+.hero {
+  margin-top:16px; min-height:370px; border-radius:36px; padding:22px 20px; position:relative; overflow:hidden;
+  background:linear-gradient(145deg,rgba(255,255,255,.75),rgba(255,255,255,.34)),
+  radial-gradient(circle at 86% 20%,rgba(255,123,184,.38),transparent 32%),
+  radial-gradient(circle at 18% 82%,rgba(255,216,77,.72),transparent 36%);
+  border:1px solid rgba(255,255,255,.82); box-shadow:var(--shadow);
+}
+.tag { width:fit-content; padding:8px 12px; border-radius:999px; background:rgba(255,138,42,.13); color:#b85a00; font-size:12px; font-weight:900; }
+h1 { margin:16px 0 8px; font-size:34px; line-height:1.08; letter-spacing:-1.2px; }
+.hero p { margin:0; max-width:250px; color:var(--muted); font-size:14px; line-height:1.7; }
+.brand-ip { position:absolute; right:-18px; bottom:-12px; width:205px; height:205px; object-fit:contain; filter:drop-shadow(0 18px 24px rgba(107,63,21,.22)); animation:floaty 3.2s ease-in-out infinite; }
+.ip-bubble { position:absolute; right:135px; bottom:154px; max-width:118px; padding:9px 10px; border-radius:18px 18px 6px 18px; background:rgba(255,255,255,.88); box-shadow:0 10px 24px rgba(95,55,15,.1); color:var(--brown); font-size:12px; line-height:1.35; font-weight:900; }
+@keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+.section { margin-top:18px; }
+.section-head { display:flex; justify-content:space-between; align-items:flex-end; margin:0 2px 10px; }
+.section h2 { margin:0; font-size:21px; letter-spacing:-.4px; }
+.section small { color:var(--muted); font-weight:800; }
+.quick-actions { display:grid; grid-template-columns:repeat(4,1fr); gap:9px; margin-top:14px; }
+.quick-action { border:none; min-height:72px; border-radius:22px; background:rgba(255,255,255,.78); box-shadow:0 10px 24px rgba(95,55,15,.09); color:var(--brown); font-weight:900; font-size:11px; display:grid; place-items:center; gap:4px; cursor:pointer; }
+.quick-action i { font-style:normal; font-size:24px; }
+.card,.daily-card { border-radius:30px; padding:18px; background:var(--card); box-shadow:0 14px 35px rgba(95,55,15,.12); border:1px solid rgba(255,255,255,.9); }
+.daily-card { background:radial-gradient(circle at 92% 8%,rgba(255,123,184,.28),transparent 32%),linear-gradient(145deg,rgba(255,255,255,.9),rgba(255,248,229,.7)); }
+.daily-top { display:flex; justify-content:space-between; gap:10px; align-items:center; }
+.daily-top b { font-size:16px; color:var(--brown); }
+.daily-top span { font-size:12px; color:var(--muted); font-weight:800; }
+.mood-strip { display:flex; gap:8px; margin-top:13px; overflow-x:auto; scrollbar-width:none; }
+.mood-strip::-webkit-scrollbar,.flavor-filter::-webkit-scrollbar,.reward-strip::-webkit-scrollbar { display:none; }
+.mood-pill { flex:0 0 auto; border-radius:999px; padding:9px 12px; background:rgba(255,255,255,.8); color:var(--muted); font-size:12px; font-weight:900; }
+.mini-note { margin-top:10px; border-radius:20px; padding:12px; background:rgba(255,138,42,.1); color:#9c520b; font-size:12px; line-height:1.55; font-weight:800; }
+.mood-grid,.flavor-grid,.series-grid,.record-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.mood-card,.flavor-card,.record-card,.badge,.reward-card { border:none; border-radius:26px; padding:14px; background:rgba(255,255,255,.84); box-shadow:0 10px 26px rgba(95,55,15,.1); color:var(--text); cursor:pointer; text-align:left; }
+.mood-card { min-height:112px; position:relative; overflow:hidden; }
+.mood-card strong { display:block; font-size:15px; margin-bottom:6px; }
+.mood-card span,.record-card span { font-size:12px; line-height:1.45; color:var(--muted); }
+.emoji { position:absolute; right:12px; bottom:10px; font-size:32px; }
+.recommend { margin-top:13px; border-radius:28px; padding:16px; background:linear-gradient(135deg,#4a2b11,#8b5019); color:white; box-shadow:0 18px 38px rgba(82,45,12,.24); display:grid; grid-template-columns:1.15fr .85fr; gap:10px; align-items:center; min-height:154px; }
+.recommend h3 { margin:4px 0 8px; font-size:20px; }
+.recommend p { margin:0; font-size:12px; line-height:1.6; color:rgba(255,255,255,.78); }
+.bag { height:120px; border-radius:24px; background:linear-gradient(145deg,#ffcf35,#ff772e); box-shadow:inset -10px -10px 0 rgba(86,44,8,.14),0 20px 26px rgba(0,0,0,.12); transform:rotate(4deg); display:grid; place-items:center; color:white; font-size:17px; font-weight:900; text-align:center; padding:12px; }
+.btn-row { display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
+.btn { border:none; border-radius:999px; padding:12px 16px; font-weight:900; font-size:13px; cursor:pointer; }
+.btn-primary { background:linear-gradient(135deg,var(--orange),#ffb11f); color:white; box-shadow:0 12px 28px rgba(255,138,42,.32); }
+.btn-ghost { background:rgba(255,255,255,.72); color:var(--brown); border:1px solid rgba(255,255,255,.95); }
+.score-row,.taste-line { display:grid; grid-template-columns:82px 1fr 42px; gap:10px; align-items:center; margin-top:14px; font-size:12px; font-weight:800; color:var(--brown); }
+.bar { height:12px; border-radius:999px; background:rgba(121,78,28,.12); overflow:hidden; }
+.bar i { display:block; height:100%; border-radius:999px; background:linear-gradient(90deg,var(--orange),var(--yellow)); }
+.task-list,.ranking-list { display:grid; gap:10px; }
+.task,.rank-item { display:grid; grid-template-columns:38px 1fr auto; gap:10px; align-items:center; padding:11px; border-radius:20px; background:rgba(255,248,229,.88); }
+.task-icon,.rank-num { width:38px; height:38px; border-radius:15px; background:white; display:grid; place-items:center; box-shadow:0 8px 18px rgba(95,55,15,.08); font-weight:900; color:var(--orange); }
+.task b,.rank-item b,.record-card b { display:block; font-size:13px; color:var(--brown); margin-bottom:2px; }
+.task span,.rank-item span { display:block; font-size:12px; color:var(--muted); }
+.energy,.rank-tag { font-size:11px; color:white; background:linear-gradient(135deg,var(--orange),#ffb11f); padding:7px 8px; border-radius:999px; font-weight:900; white-space:nowrap; }
+.series-card { border-radius:30px; padding:16px; color:white; box-shadow:0 16px 36px rgba(95,55,15,.15); min-height:132px; display:grid; align-content:space-between; cursor:pointer; }
+.series-card h3 { margin:0 0 6px; font-size:18px; }
+.series-card p { margin:0; font-size:12px; line-height:1.55; color:rgba(255,255,255,.82); }
+.series-classic { background:linear-gradient(145deg,#ffb22d,#ff7a21); }
+.series-yunnan { background:linear-gradient(145deg,#4a7c45,#9b6a2d); }
+.series-spicy { background:linear-gradient(145deg,#e84b2d,#8d1e18); }
+.series-try { background:linear-gradient(145deg,#9b6cff,#5e398f); }
+.flavor-filter { display:flex; gap:9px; overflow-x:auto; padding-bottom:5px; scrollbar-width:none; }
+.filter-btn { flex:0 0 auto; border:none; border-radius:999px; padding:10px 13px; background:rgba(255,255,255,.7); color:var(--muted); font-weight:900; cursor:pointer; }
+.filter-btn.active { background:linear-gradient(135deg,var(--orange),#ffb11f); color:white; box-shadow:0 10px 20px rgba(255,138,42,.24); }
+.flavor-grid { margin-top:13px; }
+.flavor-img { height:102px; border-radius:23px; display:grid; place-items:center; font-size:40px; margin-bottom:10px; position:relative; overflow:hidden; }
+.flavor-img::after { content:"脆"; position:absolute; right:9px; bottom:7px; width:26px; height:26px; border-radius:10px; background:rgba(255,255,255,.86); display:grid; place-items:center; color:#b85a00; font-size:13px; font-weight:900; }
+.flavor-card h3 { margin:0; font-size:15px; }
+.flavor-card p { margin:6px 0 0; font-size:12px; color:var(--muted); line-height:1.45; }
+.series-label { display:inline-flex; margin-top:8px; padding:5px 8px; border-radius:999px; background:rgba(255,138,42,.11); color:#a65307; font-size:11px; font-weight:900; }
+.scene-tip-card { margin-top:12px; border-radius:24px; padding:14px; background:rgba(255,255,255,.82); box-shadow:0 10px 24px rgba(95,55,15,.09); }
+.scene-tip-card b { display:block; color:var(--brown); font-size:14px; margin-bottom:5px; }
+.scene-tip-card span { color:var(--muted); font-size:12px; line-height:1.55; }
+.level-hero { margin-top:16px; border-radius:34px; padding:20px; min-height:232px; background:radial-gradient(circle at 90% 10%,rgba(255,123,184,.3),transparent 34%),linear-gradient(145deg,#4a2b11,#8b5019); color:white; box-shadow:0 18px 44px rgba(82,45,12,.25); position:relative; overflow:hidden; }
+.level-hero h1 { margin-top:12px; font-size:31px; }
+.level-hero p { margin:0; max-width:270px; color:rgba(255,255,255,.72); font-size:13px; line-height:1.65; }
+.level-badge { position:absolute; right:16px; bottom:16px; width:102px; height:102px; border-radius:34px; background:linear-gradient(135deg,var(--yellow),var(--orange)); display:grid; place-items:center; color:white; font-size:34px; }
+.level-progress { height:12px; border-radius:999px; background:rgba(255,255,255,.2); overflow:hidden; }
+.level-progress i { display:block; height:100%; width:68%; border-radius:999px; background:linear-gradient(90deg,#fff,var(--yellow)); }
+.progress-text { display:flex; justify-content:space-between; font-size:12px; color:rgba(255,255,255,.82); font-weight:800; margin:16px 0 7px; }
+.calendar { display:grid; grid-template-columns:repeat(7,1fr); gap:7px; margin-top:12px; }
+.day { height:42px; border-radius:15px; background:rgba(255,255,255,.76); display:grid; place-items:center; color:var(--muted); font-size:11px; font-weight:900; }
+.day.done { background:linear-gradient(135deg,var(--yellow),var(--orange)); color:white; }
+.badge-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+.badge { min-height:98px; text-align:center; cursor:default; }
+.badge i,.reward-card i { font-style:normal; display:block; font-size:28px; margin-bottom:6px; }
+.badge b,.reward-card b { display:block; font-size:12px; color:var(--brown); }
+.badge span,.reward-card span { display:block; margin-top:4px; font-size:11px; color:var(--muted); }
+.reward-strip { display:flex; gap:10px; overflow-x:auto; scrollbar-width:none; margin-top:10px; }
+.reward-card { flex:0 0 148px; min-height:112px; cursor:default; }
+.profile-card { border-radius:32px; padding:18px; background:rgba(255,255,255,.82); box-shadow:0 14px 35px rgba(95,55,15,.12); display:grid; grid-template-columns:64px 1fr; gap:14px; align-items:center; }
+.avatar { width:64px; height:64px; border-radius:24px; overflow:hidden; display:grid; place-items:center; background:white; }
+.avatar img { width:100%; height:100%; object-fit:cover; }
+.profile-card h2 { margin:0 0 5px; font-size:20px; }
+.profile-card p { margin:0; color:var(--muted); font-size:13px; line-height:1.5; }
+.share-card,.shop-card { border-radius:32px; padding:20px; background:radial-gradient(circle at 88% 16%,rgba(255,123,184,.25),transparent 34%),linear-gradient(145deg,#ffefb2,#fff9e9); box-shadow:0 18px 42px rgba(95,55,15,.16); text-align:center; }
+.shop-card { text-align:left; background:linear-gradient(145deg,#4a2b11,#8b5019); color:white; }
+.share-card h2,.shop-card h2 { margin:0 0 8px; font-size:22px; }
+.share-card p,.shop-card p { margin:0 auto 14px; max-width:290px; color:var(--muted); line-height:1.6; font-size:13px; }
+.shop-card p { color:rgba(255,255,255,.75); max-width:none; }
+.bottom-nav { position:fixed; left:50%; bottom:16px; transform:translateX(-50%); width:min(398px,calc(100% - 28px)); height:68px; border-radius:26px; background:rgba(255,255,255,.92); box-shadow:0 18px 45px rgba(77,45,15,.22); display:grid; grid-template-columns:repeat(4,1fr); align-items:center; z-index:10; border:1px solid rgba(255,255,255,.92); }
+.nav-item { border:none; background:transparent; color:var(--muted); display:grid; place-items:center; gap:3px; font-size:11px; font-weight:900; cursor:pointer; }
+.nav-item i { font-style:normal; font-size:20px; }
+.nav-item.active { color:var(--orange); }
+.toast { position:fixed; left:50%; bottom:96px; transform:translateX(-50%) translateY(20px); width:min(360px,calc(100% - 36px)); padding:13px 15px; border-radius:18px; background:rgba(62,38,16,.92); color:white; font-size:13px; line-height:1.5; opacity:0; pointer-events:none; transition:all .25s ease; z-index:30; box-shadow:0 18px 35px rgba(0,0,0,.2); }
+.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+.modal { position:fixed; inset:0; background:rgba(54,31,12,.42); display:none; align-items:flex-end; justify-content:center; z-index:40; padding:16px; }
+.modal.show { display:flex; }
+.modal-card { width:min(430px,100%); border-radius:32px; padding:20px; background:#fff8e9; box-shadow:0 -10px 50px rgba(0,0,0,.2); animation:rise .25s ease; }
+@keyframes rise { from{transform:translateY(30px);opacity:0} to{transform:translateY(0);opacity:1} }
+.modal-card h3 { margin:0 0 8px; font-size:22px; }
+.modal-card p { margin:0 0 14px; color:var(--muted); line-height:1.65; font-size:14px; }
+.modal-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+.modal-grid div { border-radius:18px; background:white; padding:12px; font-size:12px; color:var(--muted); }
+.modal-grid b { color:var(--brown); display:block; margin-bottom:4px; font-size:14px; }
+@media (min-width:780px) { body{display:grid; place-items:center; padding:30px} .phone-shell{width:430px; min-height:860px; border-radius:42px; box-shadow:0 28px 80px rgba(78,45,15,.22); background:rgba(255,247,223,.5)} }
+</style>
 </head>
 <body>
-  <main class="phone-shell">
-    <div class="status-bar">
-      <div class="brand-mark"><span class="brand-dot">✦</span> 噜咪啦 LUMILA</div>
-      <span id="pageLabel">今日快乐营业中</span>
-    </div>
-
-    <section class="page active" id="homePage">
-      <div class="hero">
-        <div class="tag">今日脆脆状态</div>
-        <h1>今天适合<br />来点什么快乐？</h1>
-        <p>选一个最像你今天的状态，噜咪啦给你配一包刚刚好的薯片。</p>
-        <div class="chip-mascot">
-          <div class="chip-face"><div class="smile"></div></div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-head">
-          <h2>选一个今天的你</h2>
-          <small>马上出推荐</small>
-        </div>
-        <div class="mood-grid">
-          <button class="mood-card" onclick="selectMood('ddl')">
-            <strong>赶DDL中</strong>
-            <span>需要一点刺激感和精神续命。</span>
-            <span class="emoji">📚</span>
-          </button>
-          <button class="mood-card" onclick="selectMood('emo')">
-            <strong>今天有点emo</strong>
-            <span>想要温柔一点的安慰感。</span>
-            <span class="emoji">🌙</span>
-          </button>
-          <button class="mood-card" onclick="selectMood('party')">
-            <strong>朋友聚会局</strong>
-            <span>需要能分享、能破冰的一包。</span>
-            <span class="emoji">🎉</span>
-          </button>
-          <button class="mood-card" onclick="selectMood('reward')">
-            <strong>想奖励自己</strong>
-            <span>今天值得拥有一包快乐。</span>
-            <span class="emoji">✨</span>
-          </button>
-        </div>
-
-        <div class="recommend" id="recommend">
-          <div>
-            <small>噜咪啦猜你今天适合</small>
-            <h3>原味</h3>
-            <p>适合“今天还不错，但需要一点快乐提醒”的普通日子。轻松、百搭、无负担。</p>
-            <div class="btn-row">
-              <button class="btn btn-primary" onclick="saveFlavor()">加入快乐包</button>
-            </div>
-          </div>
-          <div class="bag" id="bagText">LUMILA<br />原味脆</div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-head">
-          <h2>今日脆脆值</h2>
-          <small>可截图分享</small>
-        </div>
-        <div class="card">
-          <div class="status-bar" style="background: rgba(255,248,229,0.8); box-shadow:none;">
-            <span>今日幸运口味：烤肉芝士</span>
-            <span>88/100</span>
-          </div>
-          <div class="score-row">
-            <span>快乐补给</span>
-            <div class="bar"><i style="width: 88%"></i></div>
-            <span>88</span>
-          </div>
-          <div class="score-row">
-            <span>分享欲</span>
-            <div class="bar"><i style="width: 76%"></i></div>
-            <span>76</span>
-          </div>
-          <div class="score-row">
-            <span>解压值</span>
-            <div class="bar"><i style="width: 93%"></i></div>
-            <span>93</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-head">
-          <h2>今日小任务</h2>
-          <small>领脆脆能量</small>
-        </div>
-        <div class="task-list">
-          <div class="task">
-            <div class="task-icon">✅</div>
-            <div><b>签到一下</b><span>记录今天的快乐状态</span></div>
-            <div class="energy">+10</div>
-          </div>
-          <div class="task">
-            <div class="task-icon">📸</div>
-            <div><b>分享今日脆脆值</b><span>生成一张今日状态卡</span></div>
-            <div class="energy">+20</div>
-          </div>
-          <div class="task">
-            <div class="task-icon">🗳️</div>
-            <div><b>投票新口味</b><span>决定下一包限定口味</span></div>
-            <div class="energy">+15</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="page" id="flavorPage">
-      <div class="section">
-        <div class="section-head">
-          <h2>找到属于你的那一包</h2>
-          <small>真实口味星球</small>
-        </div>
-        <div class="flavor-filter">
-          <button class="filter-btn active" onclick="setFilter(this, 'all')">全部</button>
-          <button class="filter-btn" onclick="setFilter(this, 'classic')">经典快乐</button>
-          <button class="filter-btn" onclick="setFilter(this, 'spicy')">重口上头</button>
-          <button class="filter-btn" onclick="setFilter(this, 'fresh')">清爽轻脆</button>
-          <button class="filter-btn" onclick="setFilter(this, 'yunnan')">云贵风味</button>
-          <button class="filter-btn" onclick="setFilter(this, 'sweet')">甜甜奖励</button>
-        </div>
-
-        <div class="flavor-grid" id="flavorGrid">
-          <div class="flavor-card" data-scene="classic" onclick="openFlavor('原味', '最不容易出错的一包，适合什么都不想想、只想单纯脆一下的时候。', '🥔', '日常 / 追剧 / 分享', '经典 / 百搭 / 轻松')">
-            <div class="flavor-img">🥔</div>
-            <h3>原味</h3>
-            <p>适合：日常快乐、追剧、办公室分享。</p>
-          </div>
-          <div class="flavor-card" data-scene="spicy" onclick="openFlavor('诱惑麻辣味', '想来点刺激的时候，就让麻辣味把今天的低电量叫醒。', '🌶️', '聚会 / 夜宵 / 游戏局', '麻辣 / 上头 / 热闹')">
-            <div class="flavor-img" style="background: linear-gradient(145deg,#ffb067,#e84b2d)">🌶️</div>
-            <h3>诱惑麻辣味</h3>
-            <p>适合：朋友局、夜宵、想开胃的时候。</p>
-          </div>
-          <div class="flavor-card" data-scene="fresh" onclick="openFlavor('清爽小黄瓜味', '轻轻脆一下，像给嘴巴吹了一阵小凉风。', '🥒', '午后 / 轻食 / 宿舍分享', '清爽 / 轻负担 / 解腻')">
-            <div class="flavor-img" style="background: linear-gradient(145deg,#c7ff8a,#75c96b)">🥒</div>
-            <h3>清爽小黄瓜味</h3>
-            <p>适合：午后、轻食、想解腻的时候。</p>
-          </div>
-          <div class="flavor-card" data-scene="yunnan" onclick="openFlavor('云南番茄味', '酸甜明亮的一包，像把云南阳光装进薯片袋里。', '🍅', '下课后 / 低电量 / 小奖励', '酸甜 / 元气 / 明亮')">
-            <div class="flavor-img" style="background: linear-gradient(145deg,#ffc0d9,#ff7caa)">🍅</div>
-            <h3>云南番茄味</h3>
-            <p>适合：低电量下午、想恢复元气。</p>
-          </div>
-          <div class="flavor-card" data-scene="sweet" onclick="openFlavor('香甜玉米味', '甜甜香香的一包，适合给今天加一点软乎乎的快乐。', '🌽', '下午茶 / 奖励自己 / 追剧', '香甜 / 温柔 / 好入口')">
-            <div class="flavor-img" style="background: linear-gradient(145deg,#ffe872,#f3b02f)">🌽</div>
-            <h3>香甜玉米味</h3>
-            <p>适合：下午茶、奖励自己、轻松追剧。</p>
-          </div>
-          <div class="flavor-card" data-scene="spicy" onclick="openFlavor('任性烧烤味', '很适合“今天就想任性一点”的时刻，越吃越有聚会感。', '🔥', '聚会 / 游戏 / 夜宵', '烧烤 / 过瘾 / 热闹')">
-            <div class="flavor-img" style="background: linear-gradient(145deg,#ffa24f,#e8502f)">🔥</div>
-            <h3>任性烧烤味</h3>
-            <p>适合：游戏局、夜宵局、朋友分享。</p>
-          </div>
-          <div class="flavor-card" data-scene="fresh" onclick="openFlavor('阳光海苔味', '咸香轻脆，像一包不会打扰你的温柔快乐。', '🌊', '追剧 / 独处 / 轻松聊天', '海苔 / 咸香 / 轻脆')">
-            <div class="flavor-img" style="background: linear-gradient(145deg,#b9edff,#75aaff)">🌊</div>
-            <h3>阳光海苔味</h3>
-            <p>适合：追剧、独处、想轻松吃一点。</p>
-          </div>
-          <div class="flavor-card" data-scene="sweet" onclick="openFlavor('土蜂蜜烤翅味', '甜香里带一点烤翅的满足感，适合给自己发一份小奖励。', '🍯', '奖励自己 / 夜宵 / 小庆祝', '蜂蜜 / 烤翅 / 满足')">
-            <div class="flavor-img" style="background: linear-gradient(145deg,#ffe092,#c87a2f)">🍯</div>
-            <h3>土蜂蜜烤翅味</h3>
-            <p>适合：小庆祝、奖励自己、夜宵。</p>
-          </div>
-
-          <div class="flavor-card" data-scene="classic" onclick="openFlavor('黄心土豆原味', '黄心土豆的原本香气更明显，适合喜欢朴素土豆香的人。', '🟡', '日常 / 原味党 / 轻分享', '黄心土豆 / 原香 / 朴素')">
-            <div class="flavor-img" style="background: linear-gradient(145deg,#ffe76b,#e8a82f)">🟡</div>
-            <h3>黄心土豆原味</h3>
-            <p>适合：原味党、喜欢土豆本香的人。</p>
-          </div>
-          <div class="flavor-card" data-scene="spicy" onclick="openFlavor('地道麻辣味', '比普通麻辣更有存在感，适合想吃得更带劲的时候。', '🌶️', '夜宵 / 聚会 / 重口爱好者', '地道 / 麻辣 / 带劲')">
-            <div class="flavor-img" style="background: linear-gradient(145deg,#ff8a5d,#b91616)">🌶️</div>
-            <h3>地道麻辣味</h3>
-            <p>适合：重口爱好者、夜宵和聚会。</p>
-          </div>
-          <div class="flavor-card" data-scene="yunnan" onclick="openFlavor('傣家舂鸡脚味', '很有记忆点的一包，适合想尝点特别风味的时候。', '🐔', '尝鲜 / 朋友分享 / 云南风味', '傣家 / 酸辣 / 特别')">
-            <div class="flavor-img" style="background: linear-gradient(145deg,#ffd36d,#ff7058)">🐔</div>
-            <h3>傣家舂鸡脚味</h3>
-            <p>适合：尝鲜、分享、想吃点特别的。</p>
-          </div>
-          <div class="flavor-card" data-scene="yunnan" onclick="openFlavor('黑松露牛干巴味', '高级感和地方风味一起出现，适合想吃点“有故事”的口味。', '🥩', '尝鲜 / 送朋友 / 风味探索', '黑松露 / 牛干巴 / 记忆点')">
-            <div class="flavor-img" style="background: linear-gradient(145deg,#8d6b4d,#3d2619)">🥩</div>
-            <h3>黑松露牛干巴味</h3>
-            <p>适合：风味探索、尝鲜、想拍照分享。</p>
-          </div>
-          <div class="flavor-card" data-scene="yunnan" onclick="openFlavor('天麻火腿味', '一听就很云贵的一包，适合把地方风味做成社交话题。', '🍖', '尝鲜 / 地方风味 / 送礼分享', '天麻 / 火腿 / 云贵特色')">
-            <div class="flavor-img" style="background: linear-gradient(145deg,#f2c16e,#9d5631)">🍖</div>
-            <h3>天麻火腿味</h3>
-            <p>适合：地方风味爱好者、分享尝鲜。</p>
-          </div>
-          <div class="flavor-card" data-scene="yunnan" onclick="openFlavor('松茸炖土鸡味', '像一包有山野香气的薯片，适合想吃点温暖风味的时候。', '🍄', '秋冬 / 尝鲜 / 温暖小食', '松茸 / 土鸡 / 温暖')">
-            <div class="flavor-img" style="background: linear-gradient(145deg,#d6b27a,#765335)">🍄</div>
-            <h3>松茸炖土鸡味</h3>
-            <p>适合：秋冬、温暖感、风味尝鲜。</p>
-          </div>
-
-          <div class="flavor-card" data-scene="yunnan" onclick="openFlavor('云贵土豆原味', '更强调产地感的一包，适合把“土豆本身”做成品牌记忆。', '⛰️', '日常 / 产地风味 / 原味党', '云贵土豆 / 本味 / 产地感')">
-            <div class="flavor-img" style="background: linear-gradient(145deg,#f4d36a,#b8792a)">⛰️</div>
-            <h3>云贵土豆原味</h3>
-            <p>适合：原味党、产地风味、轻分享。</p>
-          </div>
-          <div class="flavor-card" data-scene="fresh" onclick="openFlavor('青柠味', '酸酸清清的一包，适合夏天、午后和想清醒一下的时候。', '🍋', '夏天 / 午后 / 解腻', '青柠 / 清爽 / 酸香')">
-            <div class="flavor-img" style="background: linear-gradient(145deg,#e6ff73,#8bd857)">🍋</div>
-            <h3>青柠味</h3>
-            <p>适合：夏天、午后、想清醒一下。</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="section share-card">
-        <h2>口味不是货架</h2>
-        <p>噜咪啦的口味可以分成经典快乐、重口上头、清爽轻脆和云贵风味。用户不是在看一堆商品名，而是在找今天最适合自己的那一包。</p>
-      </div>
-    </section>
-
-    <section class="page" id="levelPage">
-      <div class="level-hero">
-        <div class="tag" style="background:rgba(255,255,255,0.16); color:white;">我的脆脆身份</div>
-        <h1>快乐补给官<br />Lv.3</h1>
-        <p>再获得 120 点脆脆能量，就可以升级为“深夜追剧搭子”。</p>
-        <div class="progress-shell">
-          <div class="progress-text"><span>当前 680</span><span>下一级 800</span></div>
-          <div class="level-progress"><i></i></div>
-        </div>
-        <div class="level-badge">⭐</div>
-      </div>
-
-      <div class="section">
-        <div class="section-head">
-          <h2>今天可以做什么？</h2>
-          <small>成长任务</small>
-        </div>
-        <div class="task-list">
-          <div class="task">
-            <div class="task-icon">🍟</div>
-            <div><b>打卡一个口味</b><span>说说它适合什么场景</span></div>
-            <div class="energy">+20</div>
-          </div>
-          <div class="task">
-            <div class="task-icon">👯</div>
-            <div><b>邀请朋友测状态</b><span>看看谁今天最需要快乐</span></div>
-            <div class="energy">+30</div>
-          </div>
-          <div class="task">
-            <div class="task-icon">🧪</div>
-            <div><b>参与口味共创</b><span>提交一个你想吃的新口味</span></div>
-            <div class="energy">+40</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-head">
-          <h2>我的徽章</h2>
-          <small>慢慢集齐</small>
-        </div>
-        <div class="badge-grid">
-          <div class="badge"><i>🔥</i><b>连续打卡</b><span>7天达成</span></div>
-          <div class="badge"><i>🎬</i><b>追剧搭子</b><span>3次追剧口味</span></div>
-          <div class="badge"><i>📣</i><b>分享达人</b><span>5次分享</span></div>
-          <div class="badge"><i>🧭</i><b>口味探索</b><span>收藏6种口味</span></div>
-          <div class="badge"><i>🎁</i><b>新品体验</b><span>试吃资格</span></div>
-          <div class="badge"><i>🏫</i><b>校园脆脆官</b><span>待解锁</span></div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-head">
-          <h2>等级小权益</h2>
-          <small>越玩越多</small>
-        </div>
-        <div class="task-list">
-          <div class="task">
-            <div class="task-icon">🥇</div>
-            <div><b>新品优先试吃</b><span>新口味上线前先尝一口</span></div>
-            <div class="energy">Lv.2</div>
-          </div>
-          <div class="task">
-            <div class="task-icon">🎨</div>
-            <div><b>限定包装领取</b><span>节日和校园主题包装</span></div>
-            <div class="energy">Lv.4</div>
-          </div>
-          <div class="task">
-            <div class="task-icon">🗳️</div>
-            <div><b>新口味投票权</b><span>下一款口味由你参与决定</span></div>
-            <div class="energy">Lv.5</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="page" id="minePage">
-      <div class="section">
-        <div class="profile-card">
-          <div class="avatar">🥔</div>
-          <div>
-            <h2>我的快乐包</h2>
-            <p>你最近最常出现的状态是“低电量但想快乐一下”。</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-head">
-          <h2>我的快乐记录</h2>
-          <small>最近 7 天</small>
-        </div>
-        <div class="record-grid">
-          <div class="record-card">
-            <b>收藏过的口味</b>
-            <span>地道麻辣味、云南番茄味、任性烧烤味</span>
-          </div>
-          <div class="record-card">
-            <b>想试吃的口味</b>
-            <span>阳光海苔味、土蜂蜜烤翅味</span>
-          </div>
-          <div class="record-card">
-            <b>我的状态记录</b>
-            <span>emo 2 次、赶DDL 3 次、奖励自己 2 次</span>
-          </div>
-          <div class="record-card">
-            <b>最适合我的一包</b>
-            <span>系统猜你最适合“地道麻辣味”。</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="section">
-        <div class="section-head">
-          <h2>我的分享卡</h2>
-          <small>可以发出去</small>
-        </div>
-        <div class="task-list">
-          <div class="task">
-            <div class="task-icon">📊</div>
-            <div><b>今日脆脆值卡</b><span>晒出今天的快乐电量</span></div>
-            <div class="energy">生成</div>
-          </div>
-          <div class="task">
-            <div class="task-icon">🧬</div>
-            <div><b>口味人格卡</b><span>看看你像哪一种口味</span></div>
-            <div class="energy">生成</div>
-          </div>
-          <div class="task">
-            <div class="task-icon">⭐</div>
-            <div><b>脆脆等级卡</b><span>展示你的快乐身份</span></div>
-            <div class="energy">生成</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="section share-card">
-        <h2>明天也来脆一下</h2>
-        <p>每天的状态都不一样，适合的那一包也会变。噜咪啦会记住你的快乐偏好。</p>
-        <button class="btn btn-primary" onclick="switchPage('home')">回首页测今天状态</button>
-      </div>
-    </section>
-  </main>
-
-  <nav class="bottom-nav">
-    <button class="nav-item active" data-page="home" onclick="switchPage('home')"><i>🏠</i><span>首页</span></button>
-    <button class="nav-item" data-page="flavor" onclick="switchPage('flavor')"><i>🥔</i><span>口味</span></button>
-    <button class="nav-item" data-page="level" onclick="switchPage('level')"><i>⭐</i><span>脆脆等级</span></button>
-    <button class="nav-item" data-page="mine" onclick="switchPage('mine')"><i>🎒</i><span>我的</span></button>
-  </nav>
-
-  <div class="toast" id="toast"></div>
-
-  <div class="modal" id="modal" onclick="closeModal(event)">
-    <div class="modal-card">
-      <h3 id="modalTitle">口味详情</h3>
-      <p id="modalDesc">这是一包适合今天的薯片。</p>
-      <div class="modal-grid">
-        <div><b>适合场景</b><span id="modalScene">追剧 / 分享 / 放松</span></div>
-        <div><b>口味关键词</b><span id="modalKey">脆脆 / 快乐 / 轻松</span></div>
-        <div><b>搭配建议</b><span>汽水、电影、朋友局</span></div>
-        <div><b>快乐动作</b><span>加入我的快乐包</span></div>
-      </div>
-      <button class="btn btn-primary" style="width:100%" onclick="saveFlavorFromModal()">加入我的快乐包</button>
-    </div>
+<main class="phone-shell">
+  <div class="status-bar">
+    <div class="brand-mark"><span class="brand-dot">✦</span> 噜咪啦 LUMILA</div>
+    <span id="pageLabel">今日快乐营业中</span>
   </div>
 
-  <script>
-    const pageLabels = {
-      home: "今日快乐营业中",
-      flavor: "正在逛口味星球",
-      level: "脆脆能量升级中",
-      mine: "我的快乐包"
-    };
+  <section class="page active" id="homePage">
+    <div class="hero">
+      <div class="tag">今日脆脆状态</div>
+      <h1>今天适合<br />来点什么脆？</h1>
+      <p>选一个最像你今天的状态，土豆王给你配一包刚刚好的噜咪啦。</p>
+      <div class="ip-bubble">今天由土豆王来配脆！</div>
+      <img class="brand-ip" src="assets/potato_king.jpeg" alt="噜咪啦土豆王品牌形象">
+    </div>
+    <div class="quick-actions">
+      <button class="quick-action" onclick="showToast('今日幸运脆：云南小番茄脆。酸酸甜甜，适合恢复元气。')"><i>🍅</i><span>幸运脆</span></button>
+      <button class="quick-action" onclick="switchPage('flavor')"><i>🥔</i><span>逛口味</span></button>
+      <button class="quick-action" onclick="switchPage('level')"><i>⭐</i><span>领能量</span></button>
+      <button class="quick-action" onclick="switchPage('mine')"><i>🎒</i><span>快乐包</span></button>
+    </div>
+    <div class="section">
+      <div class="daily-card">
+        <div class="daily-top"><div><b>今日小纸条</b><span> · 适合先对自己好一点</span></div><span>Today</span></div>
+        <div class="mood-strip"><div class="mood-pill">低电量但想开心</div><div class="mood-pill">想吃点酸甜</div><div class="mood-pill">适合分享</div><div class="mood-pill">今天别太紧绷</div></div>
+        <div class="mini-note">土豆王猜你今天适合从“云南小番茄脆”开始：不用太重口，但要有一点明亮的快乐。</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-head"><h2>选一个今天的你</h2><small>马上出推荐</small></div>
+      <div class="mood-grid">
+        <button class="mood-card" onclick="selectMood('ddl')"><strong>赶DDL中</strong><span>需要一点刺激感和精神续命。</span><span class="emoji">📚</span></button>
+        <button class="mood-card" onclick="selectMood('emo')"><strong>今天有点emo</strong><span>想要温柔一点的安慰感。</span><span class="emoji">🌙</span></button>
+        <button class="mood-card" onclick="selectMood('party')"><strong>朋友聚会局</strong><span>需要能分享、能破冰的一包。</span><span class="emoji">🎉</span></button>
+        <button class="mood-card" onclick="selectMood('reward')"><strong>想奖励自己</strong><span>今天值得拥有一包快乐。</span><span class="emoji">✨</span></button>
+      </div>
+      <div class="recommend" id="recommend">
+        <div><small>土豆王猜你今天适合</small><h3>原味脆</h3><p>适合“今天还不错，但需要一点快乐提醒”的普通日子。轻松、百搭、无负担。</p><div class="btn-row"><button class="btn btn-primary" onclick="saveFlavor()">加入快乐包</button></div></div>
+        <div class="bag" id="bagText">LUMILA<br>原味脆</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-head"><h2>今日脆脆值</h2><small>可截图分享</small></div>
+      <div class="card">
+        <div class="status-bar" style="background:rgba(255,248,229,.8);box-shadow:none;"><span>今日幸运脆：云南小番茄脆</span><span>88/100</span></div>
+        <div class="score-row"><span>快乐补给</span><div class="bar"><i style="width:88%"></i></div><span>88</span></div>
+        <div class="score-row"><span>分享欲</span><div class="bar"><i style="width:76%"></i></div><span>76</span></div>
+        <div class="score-row"><span>解压值</span><div class="bar"><i style="width:93%"></i></div><span>93</span></div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-head"><h2>今日小任务</h2><small>领脆脆能量</small></div>
+      <div class="task-list">
+        <div class="task"><div class="task-icon">✅</div><div><b>签到一下</b><span>记录今天的快乐状态</span></div><div class="energy">+10</div></div>
+        <div class="task"><div class="task-icon">📸</div><div><b>分享今日脆脆值</b><span>生成一张今日状态卡</span></div><div class="energy">+20</div></div>
+        <div class="task"><div class="task-icon">🗳️</div><div><b>投票新口味</b><span>决定下一包限定脆</span></div><div class="energy">+15</div></div>
+      </div>
+    </div>
+  </section>
 
-    const moods = {
-      ddl: {
-        title: "地道麻辣味",
-        desc: "适合赶DDL、复习周和加班夜。重点不是“好吃”两个字，而是给你一种被理解的精神续命感。",
-        bag: "LUMILA<br />地道麻辣味",
-        toast: "已为你匹配：地道麻辣味。今天先脆一下，再继续战斗。"
-      },
-      emo: {
-        title: "阳光海苔味",
-        desc: "适合低能量、想安静待一会儿的夜晚。柔和一点，不吵闹，但有陪伴感。",
-        bag: "LUMILA<br />阳光海苔味",
-        toast: "已为你匹配：阳光海苔味。今天也可以慢慢来。"
-      },
-      party: {
-        title: "任性烧烤味",
-        desc: "适合聚会、宿舍分享和游戏局。越聊越上头，适合破冰和分享。",
-        bag: "LUMILA<br />任性烧烤味",
-        toast: "已为你匹配：任性烧烤味。朋友局就靠它开场。"
-      },
-      reward: {
-        title: "土蜂蜜烤翅味",
-        desc: "适合完成任务后奖励自己。今天已经很努力了，值得甜甜脆脆一下。",
-        bag: "LUMILA<br />土蜂蜜烤翅味",
-        toast: "已为你匹配：土蜂蜜烤翅味。给今天的自己发一包奖励。"
-      }
-    };
+  <section class="page" id="flavorPage">
+    <div class="section">
+      <div class="section-head"><h2>找到属于你的那一包</h2><small>真实口味星球</small></div>
+      <div class="series-grid">
+        <div class="series-card series-classic" onclick="setFilterByName('classic')"><div><h3>经典快乐</h3><p>日常不出错，适合第一次尝试和朋友分享。</p></div><span>🥔 稳稳的快乐</span></div>
+        <div class="series-card series-spicy" onclick="setFilterByName('spicy')"><div><h3>麻辣重口</h3><p>诱惑麻辣、双椒麻辣、任性烧烤，适合夜宵和朋友局。</p></div><span>🌶️ 越吃越上头</span></div>
+        <div class="series-card series-yunnan" onclick="setFilterByName('yungui')"><div><h3>云贵风味</h3><p>牛干巴、舂鸡脚、汽锅鸡、酸汤，一包就有地方记忆。</p></div><span>⛰️ 一包有故事</span></div>
+        <div class="series-card series-try" onclick="setFilterByName('try')"><div><h3>猎奇尝鲜</h3><p>榴莲、折耳根、香菜，适合挑战和社交传播。</p></div><span>🌿 敢不敢试试</span></div>
+      </div>
+      <div class="section-head" style="margin-top:18px;"><h2>按今天的嘴馋方式找</h2><small>点一下筛选</small></div>
+      <div class="flavor-filter">
+        <button class="filter-btn active" data-filter="all" onclick="setFilter(this,'all')">全部</button>
+        <button class="filter-btn" data-filter="classic" onclick="setFilter(this,'classic')">经典快乐</button>
+        <button class="filter-btn" data-filter="spicy" onclick="setFilter(this,'spicy')">麻辣重口</button>
+        <button class="filter-btn" data-filter="fresh" onclick="setFilter(this,'fresh')">清爽甜香</button>
+        <button class="filter-btn" data-filter="yungui" onclick="setFilter(this,'yungui')">云贵风味</button>
+        <button class="filter-btn" data-filter="try" onclick="setFilter(this,'try')">猎奇尝鲜</button>
+      </div>
+      <div class="scene-tip-card"><b>今天不知道吃什么？</b><span>想稳一点选原味脆；想上头选双椒麻辣脆；想清爽选清爽小黄瓜脆；想发朋友圈选魔力折耳根脆或魔力香菜脆。</span></div>
+      <div class="flavor-grid" id="flavorGrid">
+        <div class="flavor-card" data-scene="classic" onclick="openFlavor('原味脆', '最不容易出错的一包，适合什么都不想想、只想单纯脆一下的时候。', '🥔', '日常 / 追剧 / 分享', '经典 / 百搭 / 土豆香')">
+  <div class="flavor-img" style="background:linear-gradient(145deg,#ffdf4f,#ff8f2d)">🥔</div>
+  <h3>原味脆</h3>
+  <p>适合：日常 / 追剧 / 分享。</p>
+  <span class="series-label">经典快乐</span>
+</div>
+<div class="flavor-card" data-scene="spicy" onclick="openFlavor('诱惑麻辣脆', '想来点刺激的时候，就让麻辣把今天的低电量叫醒。', '🌶️', '夜宵 / 游戏 / 聚会', '麻辣 / 上头 / 开胃')">
+  <div class="flavor-img" style="background:linear-gradient(145deg,#ff9a5b,#d93023)">🌶️</div>
+  <h3>诱惑麻辣脆</h3>
+  <p>适合：夜宵 / 游戏 / 聚会。</p>
+  <span class="series-label">麻辣重口</span>
+</div>
+<div class="flavor-card" data-scene="spicy" onclick="openFlavor('任性烧烤脆', '很适合“今天就想任性一点”的时刻，越吃越有聚会感。', '🔥', '夜宵 / 朋友局 / 游戏', '烧烤 / 过瘾 / 热闹')">
+  <div class="flavor-img" style="background:linear-gradient(145deg,#ff9a5b,#d93023)">🔥</div>
+  <h3>任性烧烤脆</h3>
+  <p>适合：夜宵 / 朋友局 / 游戏。</p>
+  <span class="series-label">麻辣重口</span>
+</div>
+<div class="flavor-card" data-scene="sweet" onclick="openFlavor('香甜玉米脆', '甜甜香香的一包，适合给今天加一点软乎乎的快乐。', '🌽', '下午茶 / 追剧 / 奖励自己', '香甜 / 温柔 / 好入口')">
+  <div class="flavor-img" style="background:linear-gradient(145deg,#ffe092,#c87a2f)">🌽</div>
+  <h3>香甜玉米脆</h3>
+  <p>适合：下午茶 / 追剧 / 奖励自己。</p>
+  <span class="series-label">清爽甜香</span>
+</div>
+<div class="flavor-card" data-scene="fresh" onclick="openFlavor('云南小番茄脆', '酸甜明亮的一包，像把云南阳光装进薯片袋里。', '🍅', '低电量 / 下课后 / 小奖励', '酸甜 / 元气 / 明亮')">
+  <div class="flavor-img" style="background:linear-gradient(145deg,#c7ff8a,#58bd9a)">🍅</div>
+  <h3>云南小番茄脆</h3>
+  <p>适合：低电量 / 下课后 / 小奖励。</p>
+  <span class="series-label">清爽甜香</span>
+</div>
+<div class="flavor-card" data-scene="sweet" onclick="openFlavor('土蜂蜜烤翅脆', '甜香里带一点烤翅的满足感，适合给自己发一份小奖励。', '🍯', '小庆祝 / 夜宵 / 奖励自己', '蜂蜜 / 烤翅 / 满足')">
+  <div class="flavor-img" style="background:linear-gradient(145deg,#ffe092,#c87a2f)">🍯</div>
+  <h3>土蜂蜜烤翅脆</h3>
+  <p>适合：小庆祝 / 夜宵 / 奖励自己。</p>
+  <span class="series-label">清爽甜香</span>
+</div>
+<div class="flavor-card" data-scene="yungui" onclick="openFlavor('云贵土豆原味脆', '更强调产地感的一包，适合把“土豆本身”做成品牌记忆。', '⛰️', '日常 / 原味党 / 产地风味', '云贵土豆 / 本味 / 产地感')">
+  <div class="flavor-img" style="background:linear-gradient(145deg,#b89962,#4d6e3f)">⛰️</div>
+  <h3>云贵土豆原味脆</h3>
+  <p>适合：日常 / 原味党 / 产地风味。</p>
+  <span class="series-label">云贵风味</span>
+</div>
+<div class="flavor-card" data-scene="fresh" onclick="openFlavor('阳光海苔脆', '咸香轻脆，像一包不会打扰你的温柔快乐。', '🌊', '追剧 / 独处 / 轻松聊天', '海苔 / 咸香 / 轻脆')">
+  <div class="flavor-img" style="background:linear-gradient(145deg,#c7ff8a,#58bd9a)">🌊</div>
+  <h3>阳光海苔脆</h3>
+  <p>适合：追剧 / 独处 / 轻松聊天。</p>
+  <span class="series-label">清爽甜香</span>
+</div>
+<div class="flavor-card" data-scene="fresh" onclick="openFlavor('清爽小黄瓜脆', '轻轻脆一下，像给嘴巴吹了一阵小凉风。', '🥒', '午后 / 轻食 / 解腻', '清爽 / 轻负担 / 解腻')">
+  <div class="flavor-img" style="background:linear-gradient(145deg,#c7ff8a,#58bd9a)">🥒</div>
+  <h3>清爽小黄瓜脆</h3>
+  <p>适合：午后 / 轻食 / 解腻。</p>
+  <span class="series-label">清爽甜香</span>
+</div>
+<div class="flavor-card" data-scene="yungui" onclick="openFlavor('黑松露牛干巴脆', '高级感和地方风味一起出现，适合想吃点“有故事”的口味。', '🥩', '尝鲜 / 分享 / 风味探索', '黑松露 / 牛干巴 / 记忆点')">
+  <div class="flavor-img" style="background:linear-gradient(145deg,#b89962,#4d6e3f)">🥩</div>
+  <h3>黑松露牛干巴脆</h3>
+  <p>适合：尝鲜 / 分享 / 风味探索。</p>
+  <span class="series-label">云贵风味</span>
+</div>
+<div class="flavor-card" data-scene="yungui" onclick="openFlavor('傣家舂鸡脚脆', '很有记忆点的一包，适合想尝点特别风味的时候。', '🐔', '尝鲜 / 朋友分享 / 云南风味', '傣家 / 酸辣 / 特别')">
+  <div class="flavor-img" style="background:linear-gradient(145deg,#b89962,#4d6e3f)">🐔</div>
+  <h3>傣家舂鸡脚脆</h3>
+  <p>适合：尝鲜 / 朋友分享 / 云南风味。</p>
+  <span class="series-label">云贵风味</span>
+</div>
+<div class="flavor-card" data-scene="spicy" onclick="openFlavor('双椒麻辣脆', '比普通麻辣更有冲击感，适合想吃得更带劲的时候。', '🌶️', '夜宵 / 聚会 / 重口爱好者', '双椒 / 麻辣 / 带劲')">
+  <div class="flavor-img" style="background:linear-gradient(145deg,#ff9a5b,#d93023)">🌶️</div>
+  <h3>双椒麻辣脆</h3>
+  <p>适合：夜宵 / 聚会 / 重口爱好者。</p>
+  <span class="series-label">麻辣重口</span>
+</div>
+<div class="flavor-card" data-scene="yungui" onclick="openFlavor('松茸炖土鸡脆', '像一包有山野香气的薯片，适合想吃点温暖风味的时候。', '🍄', '秋冬 / 尝鲜 / 温暖小食', '松茸 / 土鸡 / 温暖')">
+  <div class="flavor-img" style="background:linear-gradient(145deg,#b89962,#4d6e3f)">🍄</div>
+  <h3>松茸炖土鸡脆</h3>
+  <p>适合：秋冬 / 尝鲜 / 温暖小食。</p>
+  <span class="series-label">云贵风味</span>
+</div>
+<div class="flavor-card" data-scene="yungui" onclick="openFlavor('天麻汽锅鸡脆', '一听就很云贵的一包，适合把地方风味做成社交话题。', '🍲', '尝鲜 / 地方风味 / 送礼分享', '天麻 / 汽锅鸡 / 云贵特色')">
+  <div class="flavor-img" style="background:linear-gradient(145deg,#b89962,#4d6e3f)">🍲</div>
+  <h3>天麻汽锅鸡脆</h3>
+  <p>适合：尝鲜 / 地方风味 / 送礼分享。</p>
+  <span class="series-label">云贵风味</span>
+</div>
+<div class="flavor-card" data-scene="yungui" onclick="openFlavor('贵州酸汤脆', '酸香开胃的一包，适合想吃点不一样、又很有地域感的时候。', '🥘', '开胃 / 尝鲜 / 分享', '贵州酸汤 / 酸香 / 开胃')">
+  <div class="flavor-img" style="background:linear-gradient(145deg,#b89962,#4d6e3f)">🥘</div>
+  <h3>贵州酸汤脆</h3>
+  <p>适合：开胃 / 尝鲜 / 分享。</p>
+  <span class="series-label">云贵风味</span>
+</div>
+<div class="flavor-card" data-scene="try" onclick="openFlavor('酸奶酪洋葱脆', '奶香和洋葱香一起出现，适合喜欢西式风味和追剧的人。', '🧀', '追剧 / 下午茶 / 尝鲜', '奶酪 / 洋葱 / 浓香')">
+  <div class="flavor-img" style="background:linear-gradient(145deg,#cba4ff,#6c45b8)">🧀</div>
+  <h3>酸奶酪洋葱脆</h3>
+  <p>适合：追剧 / 下午茶 / 尝鲜。</p>
+  <span class="series-label">猎奇尝鲜</span>
+</div>
+<div class="flavor-card" data-scene="try" onclick="openFlavor('榴莲脆', '喜欢的人会很上头，不喜欢的人也会想讨论，天生适合制造话题。', '💛', '尝鲜 / 话题局 / 勇敢者挑战', '榴莲 / 浓郁 / 话题感')">
+  <div class="flavor-img" style="background:linear-gradient(145deg,#cba4ff,#6c45b8)">💛</div>
+  <h3>榴莲脆</h3>
+  <p>适合：尝鲜 / 话题局 / 勇敢者挑战。</p>
+  <span class="series-label">猎奇尝鲜</span>
+</div>
+<div class="flavor-card" data-scene="try" onclick="openFlavor('魔力折耳根脆', '非常有记忆点的一包，适合做挑战、打卡和社交传播。', '🌿', '挑战 / 打卡 / 好友分享', '折耳根 / 魔力 / 挑战感')">
+  <div class="flavor-img" style="background:linear-gradient(145deg,#cba4ff,#6c45b8)">🌿</div>
+  <h3>魔力折耳根脆</h3>
+  <p>适合：挑战 / 打卡 / 好友分享。</p>
+  <span class="series-label">猎奇尝鲜</span>
+</div>
+<div class="flavor-card" data-scene="try" onclick="openFlavor('魔力香菜脆', '香菜党会狂喜，非香菜党也会忍不住点开看看。', '☘️', '挑战 / 香菜党 / 社交话题', '香菜 / 魔力 / 分阵营')">
+  <div class="flavor-img" style="background:linear-gradient(145deg,#cba4ff,#6c45b8)">☘️</div>
+  <h3>魔力香菜脆</h3>
+  <p>适合：挑战 / 香菜党 / 社交话题。</p>
+  <span class="series-label">猎奇尝鲜</span>
+</div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-head"><h2>今天大家在吃什么</h2><small>人气榜</small></div>
+      <div class="ranking-list">
+        <div class="rank-item"><div class="rank-num">1</div><div><b>云南小番茄脆</b><span>酸甜元气，适合低电量下午</span></div><div class="rank-tag">元气</div></div>
+        <div class="rank-item"><div class="rank-num">2</div><div><b>诱惑麻辣脆</b><span>聚会和夜宵场景最容易被拿走</span></div><div class="rank-tag">上头</div></div>
+        <div class="rank-item"><div class="rank-num">3</div><div><b>魔力折耳根脆</b><span>话题感很强，适合挑战和分享</span></div><div class="rank-tag">挑战</div></div>
+      </div>
+    </div>
+    <div class="section share-card"><h2>每一包都要有出场时刻</h2><p>噜咪啦不是把口味平铺成货架，而是让用户按今天的状态、场景和好奇心找到那一包“刚好想吃的脆”。</p></div>
+  </section>
 
-    let currentFlavor = "原味";
+  <section class="page" id="levelPage">
+    <div class="level-hero">
+      <div class="tag" style="background:rgba(255,255,255,.16);color:white;">我的脆脆身份</div>
+      <h1>快乐补给官<br>Lv.3</h1><p>再获得 120 点脆脆能量，就可以升级为“深夜追剧搭子”。</p>
+      <div class="progress-text"><span>当前 680</span><span>下一级 800</span></div><div class="level-progress"><i></i></div><div class="level-badge">⭐</div>
+    </div>
+    <div class="section"><div class="card"><div class="daily-top"><div><b>本周脆脆打卡</b><span> · 已连续 5 天</span></div><span>+50 能量</span></div><div class="calendar"><div class="day done">一</div><div class="day done">二</div><div class="day done">三</div><div class="day done">四</div><div class="day done">五</div><div class="day">六</div><div class="day">日</div></div><div class="mini-note">再打卡 2 天，可以解锁“连续脆脆一周”徽章。</div></div></div>
+    <div class="section"><div class="section-head"><h2>今天可以做什么？</h2><small>成长任务</small></div><div class="task-list"><div class="task"><div class="task-icon">🍟</div><div><b>打卡一包脆</b><span>说说它适合什么场景</span></div><div class="energy">+20</div></div><div class="task"><div class="task-icon">👯</div><div><b>邀请朋友测状态</b><span>看看谁今天最需要快乐</span></div><div class="energy">+30</div></div><div class="task"><div class="task-icon">🧪</div><div><b>参与口味共创</b><span>提交一个你想吃的新口味</span></div><div class="energy">+40</div></div></div></div>
+    <div class="section"><div class="section-head"><h2>我的徽章</h2><small>慢慢集齐</small></div><div class="badge-grid"><div class="badge"><i>🔥</i><b>连续打卡</b><span>7天达成</span></div><div class="badge"><i>🎬</i><b>追剧搭子</b><span>3次追剧脆</span></div><div class="badge"><i>📣</i><b>分享达人</b><span>5次分享</span></div><div class="badge"><i>🧭</i><b>口味探索</b><span>收藏6种脆</span></div><div class="badge"><i>🎁</i><b>新品体验</b><span>试吃资格</span></div><div class="badge"><i>🏫</i><b>校园脆脆官</b><span>待解锁</span></div></div></div>
+    <div class="section"><div class="section-head"><h2>快要解锁的奖励</h2><small>继续脆一下</small></div><div class="reward-strip"><div class="reward-card"><i>🎁</i><b>新品试吃券</b><span>还差 60 能量</span></div><div class="reward-card"><i>🎨</i><b>限定包装</b><span>Lv.4 可领取</span></div><div class="reward-card"><i>🗳️</i><b>新口味投票</b><span>本周开放</span></div></div></div>
+  </section>
 
-    function switchPage(page) {
-      document.querySelectorAll(".page").forEach(el => el.classList.remove("active"));
-      document.getElementById(page + "Page").classList.add("active");
+  <section class="page" id="minePage">
+    <div class="section"><div class="profile-card"><div class="avatar"><img src="assets/potato_king.jpeg" alt="土豆王头像"></div><div><h2>我的快乐包</h2><p>你最近最常出现的状态是“低电量但想快乐一下”。</p></div></div></div>
+    <div class="section"><div class="card"><div class="daily-top"><div><b>我的口味偏好</b><span> · 系统小总结</span></div><span>本周</span></div><div class="taste-map"><div class="taste-line"><span>酸甜元气</span><div class="bar"><i style="width:86%"></i></div><span>86</span></div><div class="taste-line"><span>麻辣上头</span><div class="bar"><i style="width:72%"></i></div><span>72</span></div><div class="taste-line"><span>清爽解腻</span><div class="bar"><i style="width:64%"></i></div><span>64</span></div><div class="taste-line"><span>云贵尝鲜</span><div class="bar"><i style="width:58%"></i></div><span>58</span></div></div><div class="mini-note">你最近更适合从“云南小番茄脆”和“清爽小黄瓜脆”里选一包。</div></div></div>
+    <div class="section"><div class="section-head"><h2>我的快乐记录</h2><small>最近 7 天</small></div><div class="record-grid"><div class="record-card"><b>收藏过的脆</b><span>诱惑麻辣脆、云南小番茄脆、任性烧烤脆</span></div><div class="record-card"><b>想试吃的脆</b><span>魔力折耳根脆、土蜂蜜烤翅脆</span></div><div class="record-card"><b>我的状态记录</b><span>emo 2 次、赶DDL 3 次、奖励自己 2 次</span></div><div class="record-card"><b>最适合我的一包</b><span>系统猜你最适合“云南小番茄脆”。</span></div></div></div>
+    <div class="section"><div class="section-head"><h2>我的分享卡</h2><small>可以发出去</small></div><div class="task-list"><div class="task"><div class="task-icon">📊</div><div><b>今日脆脆值卡</b><span>晒出今天的快乐电量</span></div><div class="energy">生成</div></div><div class="task"><div class="task-icon">🧬</div><div><b>口味人格卡</b><span>看看你像哪一种脆</span></div><div class="energy">生成</div></div><div class="task"><div class="task-icon">⭐</div><div><b>脆脆等级卡</b><span>展示你的快乐身份</span></div><div class="energy">生成</div></div></div></div>
+    <div class="section"><div class="shop-card"><h2>关注噜咪啦小助手</h2><p>每天给你发一张“今日脆脆签”，提醒你今天适合吃什么、去哪领能量、有没有新口味试吃。</p><div class="btn-row"><button class="btn btn-primary" onclick="showToast('已预约：明天提醒你测今日脆脆状态。')">明天提醒我</button><button class="btn btn-ghost" onclick="showToast('已开启：新口味试吃消息。')">新口味通知</button></div></div></div>
+    <div class="section share-card"><h2>明天也来脆一下</h2><p>每天的状态都不一样，适合的那一包也会变。土豆王会记住你的快乐偏好。</p><button class="btn btn-primary" onclick="switchPage('home')">回首页测今天状态</button></div>
+  </section>
+</main>
 
-      document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
-      document.querySelector('.nav-item[data-page="' + page + '"]').classList.add("active");
-
-      document.getElementById("pageLabel").textContent = pageLabels[page];
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    function selectMood(type) {
-      const data = moods[type];
-      const box = document.getElementById("recommend");
-      currentFlavor = data.title;
-      document.querySelector("#recommend h3").textContent = data.title;
-      document.querySelector("#recommend p").textContent = data.desc;
-      document.getElementById("bagText").innerHTML = data.bag;
-      box.animate([
-        { transform: "scale(0.98)", opacity: 0.7 },
-        { transform: "scale(1)", opacity: 1 }
-      ], { duration: 220, easing: "ease-out" });
-      showToast(data.toast);
-    }
-
-    function saveFlavor() {
-      showToast("已加入我的快乐包：" + currentFlavor + "。下次可以在“我的”里找到它。");
-    }
-
-    function setFilter(btn, scene) {
-      document.querySelectorAll(".filter-btn").forEach(el => el.classList.remove("active"));
-      btn.classList.add("active");
-
-      document.querySelectorAll(".flavor-card").forEach(card => {
-        const visible = scene === "all" || card.dataset.scene === scene;
-        card.style.display = visible ? "block" : "none";
-      });
-    }
-
-    function openFlavor(title, desc, icon, scene, key) {
-      currentFlavor = title;
-      document.getElementById("modalTitle").textContent = icon + " " + title;
-      document.getElementById("modalDesc").textContent = desc;
-      document.getElementById("modalScene").textContent = scene || "追剧 / 分享 / 放松";
-      document.getElementById("modalKey").textContent = key || "脆脆 / 快乐 / 轻松";
-      document.getElementById("modal").classList.add("show");
-    }
-
-    function saveFlavorFromModal() {
-      document.getElementById("modal").classList.remove("show");
-      showToast("已加入我的快乐包：" + currentFlavor + "。");
-    }
-
-    function closeModal(event) {
-      if (event.target.id === "modal") {
-        event.target.classList.remove("show");
-      }
-    }
-
-    function showToast(text) {
-      const toast = document.getElementById("toast");
-      toast.textContent = text;
-      toast.classList.add("show");
-      clearTimeout(window.toastTimer);
-      window.toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
-    }
-  </script>
+<nav class="bottom-nav">
+  <button class="nav-item active" data-page="home" onclick="switchPage('home')"><i>🏠</i><span>首页</span></button>
+  <button class="nav-item" data-page="flavor" onclick="switchPage('flavor')"><i>🥔</i><span>口味</span></button>
+  <button class="nav-item" data-page="level" onclick="switchPage('level')"><i>⭐</i><span>脆脆等级</span></button>
+  <button class="nav-item" data-page="mine" onclick="switchPage('mine')"><i>🎒</i><span>我的</span></button>
+</nav>
+<div class="toast" id="toast"></div>
+<div class="modal" id="modal" onclick="closeModal(event)">
+  <div class="modal-card">
+    <h3 id="modalTitle">口味详情</h3><p id="modalDesc">这是一包适合今天的脆。</p>
+    <div class="modal-grid"><div><b>适合场景</b><span id="modalScene">追剧 / 分享 / 放松</span></div><div><b>口味关键词</b><span id="modalKey">脆脆 / 快乐 / 轻松</span></div><div><b>搭配建议</b><span>汽水、电影、朋友局</span></div><div><b>快乐动作</b><span>加入我的快乐包</span></div></div>
+    <button class="btn btn-primary" style="width:100%" onclick="saveFlavorFromModal()">加入我的快乐包</button>
+  </div>
+</div>
+<script>
+const pageLabels={home:"今日快乐营业中",flavor:"正在逛口味星球",level:"脆脆能量升级中",mine:"我的快乐包"};
+const moods={
+  ddl:{title:"双椒麻辣脆",desc:"适合赶DDL、复习周和加班夜。麻辣一点，像把精神电量拉回来。",bag:"LUMILA<br>双椒麻辣脆",toast:"已为你匹配：双椒麻辣脆。今天先脆一下，再继续战斗。"},
+  emo:{title:"阳光海苔脆",desc:"适合低能量、想安静待一会儿的夜晚。咸香轻脆，不吵闹，但有陪伴感。",bag:"LUMILA<br>阳光海苔脆",toast:"已为你匹配：阳光海苔脆。今天也可以慢慢来。"},
+  party:{title:"任性烧烤脆",desc:"适合聚会、宿舍分享和游戏局。越聊越上头，适合破冰和分享。",bag:"LUMILA<br>任性烧烤脆",toast:"已为你匹配：任性烧烤脆。朋友局就靠它开场。"},
+  reward:{title:"土蜂蜜烤翅脆",desc:"适合完成任务后奖励自己。今天已经很努力了，值得甜甜脆脆一下。",bag:"LUMILA<br>土蜂蜜烤翅脆",toast:"已为你匹配：土蜂蜜烤翅脆。给今天的自己发一包奖励。"}
+};
+let currentFlavor="原味脆";
+function switchPage(page){document.querySelectorAll(".page").forEach(el=>el.classList.remove("active"));document.getElementById(page+"Page").classList.add("active");document.querySelectorAll(".nav-item").forEach(el=>el.classList.remove("active"));document.querySelector('.nav-item[data-page="'+page+'"]').classList.add("active");document.getElementById("pageLabel").textContent=pageLabels[page];window.scrollTo({top:0,behavior:"smooth"});}
+function selectMood(type){const data=moods[type];currentFlavor=data.title;document.querySelector("#recommend h3").textContent=data.title;document.querySelector("#recommend p").textContent=data.desc;document.getElementById("bagText").innerHTML=data.bag;document.getElementById("recommend").animate([{transform:"scale(.98)",opacity:.7},{transform:"scale(1)",opacity:1}],{duration:220,easing:"ease-out"});showToast(data.toast);}
+function saveFlavor(){showToast("已加入我的快乐包："+currentFlavor+"。下次可以在“我的”里找到它。");}
+function setFilter(btn,scene){document.querySelectorAll(".filter-btn").forEach(el=>el.classList.remove("active"));btn.classList.add("active");document.querySelectorAll(".flavor-card").forEach(card=>{card.style.display=(scene==="all"||card.dataset.scene===scene)?"block":"none";});}
+function setFilterByName(scene){const btn=document.querySelector('.filter-btn[data-filter="'+scene+'"]'); if(btn){setFilter(btn,scene);showToast("已切换到："+btn.textContent+"。");}}
+function openFlavor(title,desc,icon,scene,key){currentFlavor=title;document.getElementById("modalTitle").textContent=icon+" "+title;document.getElementById("modalDesc").textContent=desc;document.getElementById("modalScene").textContent=scene;document.getElementById("modalKey").textContent=key;document.getElementById("modal").classList.add("show");}
+function saveFlavorFromModal(){document.getElementById("modal").classList.remove("show");showToast("已加入我的快乐包："+currentFlavor+"。");}
+function closeModal(event){if(event.target.id==="modal")event.target.classList.remove("show");}
+function showToast(text){const toast=document.getElementById("toast");toast.textContent=text;toast.classList.add("show");clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>toast.classList.remove("show"),2600);}
+</script>
 </body>
 </html>
